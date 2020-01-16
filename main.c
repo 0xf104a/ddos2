@@ -12,11 +12,16 @@
 #include "config.h"
 
 int main(int argc, const char * argv[]) {
-#if
+#if DEBUG
     set_loglevel(LVL_FULL);
 #else
     set_loglevel(LVL_RELEASE);
 #endif
     arguments_begin();
+    /**Arguments**/
+    
+    /**Parse**/
+    arguments_parse(argc, argv, 1);
+    
     return 0;
 }
