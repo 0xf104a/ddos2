@@ -47,7 +47,7 @@ void argument_add_compulsory(char* name, char* description, argtype type);
 void argument_add(char* name, char* description, argtype type, argvalue _default, bool has_default_value);
 void arguments_parse(int argc, const char * argv[], int start);
 argument_t* argument_get(char *name);
-//bool argument_check(char *name);
+bool argument_check(char *name);
 argvalue argument_value_get(char *name);
 void arguments_help(const char *progname);
 #endif /* arguments_h */

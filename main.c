@@ -12,6 +12,22 @@
 #include "config.h"
 
 int main(int argc, const char * argv[]) {
+    printf(ORANGE);
+    printf(BOLD);
+    printf(BLINK);
+    printf(" (    (        )  (\n");
+    printf(" )\\ ) )\\ )  ( /(  )\\ )      )\n");
+    printf("(()/((()/(  )\\())(()/(   ( /(\n");
+    printf("/(_))/(_))((_)\\  /(_))  )(_))\n");
+    printf("(_))_(_))_   ((_)(_))   ((_)\n");
+    printf(ENDC);
+    printf(ORANGE);
+    printf(BOLD);
+    printf("|   \\|   \\ / _ \\/ __|  |_  )\n");
+    printf("| |) | |) | (_) \\__ \\   / /\n");
+    printf("|___/|___/ \\___/|___/  /___| \n");
+    printf("                       Version %s\n",VERSION);
+    printf(ENDC);
 #if DEBUG
     set_loglevel(LVL_FULL);
 #else

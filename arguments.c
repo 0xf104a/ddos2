@@ -68,9 +68,14 @@ void argument_add(char* name, char* description, argtype type, argvalue _default
 
 argument_t* argument_get(char *name){
     if(!_argcheck(name)){
-        die("Programming error: Requested unknown argument: %s(%s:%d).",name,__FILE__,__LINE__);
+        die("Programming error: Requested unknown argument: %s.(%s:%d).",name,__FILE__,__LINE__);
     }
     return (argument_t*)hashtbl_get(arguments, name);
+}
+
+bool argument_check(char *name){
+    argument_t *argument=argument_get(name);
+    return argument->is_set;
 }
 
 argvalue argument_value_get(char *name){
@@ -130,5 +135,13 @@ void arguments_parse(int argc, const char * argv[], int start){
 }
 
 void arguments_help(const char *progname){
-    
+    if(!usage){
+        warn("Programming warning:usage is unset(%s:%d)", __FILE__, __LINE__);
+    }
+    int i=0;
+    info("Usage: %s %s",progname, usage);
+    for(;i<arguments->values->sz;++i){
+        argument_t *argument = (argument_t*)arguments->values->base[i];
+        printf("    %s – %s\n",argument->name, argument->description);
+    }
 }
