@@ -22,6 +22,6 @@ int main(int argc, const char * argv[]) {
     
     /**Parse**/
     arguments_parse(argc, argv, 1);
-    
+
     return 0;
 }
