@@ -7,5 +7,15 @@
 //
 
 #include "arguments.h"
+#include "message.h"
+#include "config.h"
 
-//FUCK GIT
+#include <stdlib.h>
+#include <string.h>
+
+hashtable* arguments=NULL;
+char* usage=NULL;
+
+void arguments_begin(void){
+    arguments=hashtbl_create(HASHTBL_CAPACITY);
+}
