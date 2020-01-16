@@ -90,7 +90,7 @@ fi
 BASEDIR=`pwd`
 CC="gcc"
 CFLAGS="-c -I${BASEDIR} -Wall"
-LD="~/.platformio/packages/toolchain-xtensa32/bin/xtensa-esp32-elf-g++"
+LD="ld"
 LD_FLAGS=""
 OBJ_DIR="obj/"
 BIN_DIR="bin/"

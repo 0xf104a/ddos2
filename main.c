@@ -8,9 +8,15 @@
 
 #include <stdio.h>
 #include "message.h"
+#include "arguments.h"
+#include "config.h"
 
 int main(int argc, const char * argv[]) {
+#if
     set_loglevel(LVL_FULL);
-    info("Test\n");
+#else
+    set_loglevel(LVL_RELEASE);
+#endif
+    arguments_begin();
     return 0;
 }

@@ -10,5 +10,6 @@
 #define config_h
 
 #define HASHTBL_CAPACITY 256 //Default hashtable capacity
+#define DEBUG            1
 
 #endif /* config_h */
