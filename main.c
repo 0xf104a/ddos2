@@ -7,7 +7,10 @@
 //
 
 #include <stdio.h>
+#include "message.h"
 
 int main(int argc, const char * argv[]) {
+    set_loglevel(LVL_FULL);
+    info("Test\n");
     return 0;
 }

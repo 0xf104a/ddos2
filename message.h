@@ -24,6 +24,9 @@
 #define LVL_FATAL   0b0100000
 #define LVL_STATUS  0b1000000
 
+#define LVL_FULL    0b1111111
+#define LVL_RELEASE 0b1111110
+
 #define HEADER "\033[95m"
 #define OKBLUE "\033[94m"
 #define OKGREEN "\033[92m"
