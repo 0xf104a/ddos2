@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		65F294F123D04391006323A7 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 65F294F023D04391006323A7 /* main.c */; };
+		65F294F823D04407006323A7 /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 65F294F723D04407006323A7 /* array.c */; };
+		65F294FB23D0441B006323A7 /* hashtable.c in Sources */ = {isa = PBXBuildFile; fileRef = 65F294FA23D0441B006323A7 /* hashtable.c */; };
+		65F294FE23D04467006323A7 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = 65F294FD23D04467006323A7 /* message.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,12 @@
 /* Begin PBXFileReference section */
 		65F294ED23D04391006323A7 /* ddos2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ddos2; sourceTree = BUILT_PRODUCTS_DIR; };
 		65F294F023D04391006323A7 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		65F294F723D04407006323A7 /* array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = array.c; sourceTree = "<group>"; };
+		65F294F923D04412006323A7 /* array.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = array.h; sourceTree = "<group>"; };
+		65F294FA23D0441B006323A7 /* hashtable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hashtable.c; sourceTree = "<group>"; };
+		65F294FC23D04425006323A7 /* hashtable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hashtable.h; sourceTree = "<group>"; };
+		65F294FD23D04467006323A7 /* message.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
+		65F294FF23D04472006323A7 /* message.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = message.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +66,12 @@
 		65F294EF23D04391006323A7 /* ddos2 */ = {
 			isa = PBXGroup;
 			children = (
+				65F294FD23D04467006323A7 /* message.c */,
+				65F294FF23D04472006323A7 /* message.h */,
+				65F294F723D04407006323A7 /* array.c */,
+				65F294F923D04412006323A7 /* array.h */,
+				65F294FA23D0441B006323A7 /* hashtable.c */,
+				65F294FC23D04425006323A7 /* hashtable.h */,
 				65F294F023D04391006323A7 /* main.c */,
 			);
 			path = ddos2;
@@ -120,6 +135,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F294F123D04391006323A7 /* main.c in Sources */,
+				65F294F823D04407006323A7 /* array.c in Sources */,
+				65F294FB23D0441B006323A7 /* hashtable.c in Sources */,
+				65F294FE23D04467006323A7 /* message.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
