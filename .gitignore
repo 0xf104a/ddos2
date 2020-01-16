@@ -52,3 +52,6 @@ Mkfile.old
 dkms.conf
 #Mac OS X
 .DS_Store
+*.xcode*
+*.xcodeproj
+*.xcworkspace
