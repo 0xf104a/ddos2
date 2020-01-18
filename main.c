@@ -34,8 +34,10 @@ int main(int argc, const char * argv[]) {
     set_loglevel(LVL_RELEASE);
 #endif
     arguments_begin();
+    //TODO: Load modules
     /**Arguments**/
-    
+    argument_add_compulsory("--module", "Module to run.", ARG_STR);
+    argument_add("--ls-modules","List all modules loaded.",ARG_BOOL,argbool(false),true);
     /**Parse**/
     arguments_parse(argc, argv, 1);
 

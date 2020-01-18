@@ -32,7 +32,11 @@ void _register_argument(argument_t *argument){
     if(!arguments){
         die("Programming error: arguments==NULL!Have you called arguments_begin()?(%s:%d)");
     }
-    hashtbl_add(arguments, argument->name, argument);
+    if(!hashtbl_check_key(arguments, argument->name)){
+        hashtbl_add(arguments, argument->name, argument);
+    }else{
+        warn("Programming warning: Will not register argument `%s` – already registered(%s:%d)", argument->name,__FILE__, __LINE__);
+    }
 }
 
 

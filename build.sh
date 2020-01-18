@@ -47,8 +47,9 @@ info(){
 exec(){
     info "${1}"
     eval "${1}"
-    if [ ! $? -eq 0 ]; then
-        error "Exec: ${1} failed with non-zero exit code: ${?}"
+    code=$?
+    if [ ! $code -eq 0 ]; then
+        error "Exec: ${1} failed with non-zero exit code: ${code}"
         exit -1
     fi
 }
@@ -80,9 +81,10 @@ if [ $# -eq 0 ]; then
 fi
 
 if [[ $1 == "-h" ]]; then
-    echo "Usage:"$0" <-h> [all|clean]"
+    echo "Usage:"$0" <-h> [all|debug|release]"
     echo "-h        Display this help message and exit."
-    echo "all       Build all"
+    echo "debug     Build in debug mode"
+    echo "release   Build in release mode"
     echo "clean     Remove obj/ bin/ directories."
     exit 0
 fi
@@ -105,7 +107,7 @@ target_clean(){
    success "Cleaned."
 }
 
-target_all(){
+target_debug(){
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
    leave_dir
@@ -119,6 +121,23 @@ target_all(){
    exec "${CC} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
 }
 
+target_release(){
+   require_directory $OBJ_DIR
+   require_directory $BIN_DIR
+   leave_dir
+   info "Building ddos2"
+   for file in "${SOURCES[@]}"
+   do
+       exec "${CC} ${CFLAGS} -Ofast ${file}.c -o ${OBJ_DIR}${file}.o"
+   done
+   change_dir $OBJ_DIR
+   objects=$(printf " %s.o" "${SOURCES[@]}")
+   exec "${CC} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+}
+
+target_all(){
+   target_release
+}
 if [[ `type -t "target_${1}"` == "function" ]]; then
      eval "target_${1}"
      success "Done."

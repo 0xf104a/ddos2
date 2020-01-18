@@ -50,4 +50,5 @@ argument_t* argument_get(char *name);
 bool argument_check(char *name);
 argvalue argument_value_get(char *name);
 void arguments_help(const char *progname);
+void _register_argument(argument_t *argument);
 #endif /* arguments_h */
