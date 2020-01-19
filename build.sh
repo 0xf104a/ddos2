@@ -56,7 +56,7 @@ exec(){
 
 require_directory(){ # Creates directory if not exist
     if [ ! -d $1 ]; then
-        warn "Directory not found: ${1}"
+        warn "Directory not found: ${1}. Will create it now."
         exec "mkdir ${1}"
     fi
 }
@@ -96,9 +96,12 @@ LD="ld"
 LD_FLAGS=""
 OBJ_DIR="obj/"
 BIN_DIR="bin/"
+MODULES_DIR="modules/"
+MODULES_BIN="bin/modules/"
 EXECUTABLE="ddos2"
 
-declare -a SOURCES=("array" "hashtable" "message" "module" "arguments" "main")
+declare -a SOURCES=("commons" "array" "hashtable" "message" "module" "arguments" "main")
+declare -a MODULES=("mod_a")
 
 target_clean(){
    info "Cleaning up."
@@ -108,10 +111,11 @@ target_clean(){
 }
 
 target_debug(){
+   info "Building debug."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
+   require_directory $MODULES_BIN
    leave_dir
-   info "Building ddos2"
    for file in "${SOURCES[@]}"
    do
        exec "${CC} ${CFLAGS} ${file}.c -o ${OBJ_DIR}${file}.o"
@@ -122,10 +126,11 @@ target_debug(){
 }
 
 target_release(){
+   info "Building release."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
+   require_directory $MODULES_BIN
    leave_dir
-   info "Building ddos2"
    for file in "${SOURCES[@]}"
    do
        exec "${CC} ${CFLAGS} -Ofast ${file}.c -o ${OBJ_DIR}${file}.o"
@@ -135,8 +140,22 @@ target_release(){
    exec "${CC} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
 }
 
+target_modules(){
+   info "Building modules."
+   require_directory $MODULES_BIN
+   for module in "${MODULES[@]}"
+   do
+     change_dir $MODULES_DIR
+     change_dir $module
+     exec ./build.sh all
+     leave_dir
+   done
+}
+
 target_all(){
+   target_clean
    target_release
+   target_modules
 }
 if [[ `type -t "target_${1}"` == "function" ]]; then
      eval "target_${1}"

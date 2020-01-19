@@ -106,7 +106,7 @@ void arguments_parse(int argc, const char * argv[], int start){
         if(argument->type==ARG_INT){
             ++i;
             if(i>=argc){
-                die("Argument %s require a value.",argument->name);
+                die("Argument %s requires a value.",argument->name);
             }
             argument->value=argint(atoll(argv[i]));
             argument->is_set=true;
@@ -114,7 +114,7 @@ void arguments_parse(int argc, const char * argv[], int start){
         if(argument->type==ARG_STR){
             ++i;
             if(i>=argc){
-                die("Argument %s require a value.",argument->name);
+                die("Argument %s requires a value.",argument->name);
             }
             char* argvalue=(char*)malloc(sizeof(char)*strlen(argv[i])+sizeof(char));
             strcpy(argvalue, argv[i]);

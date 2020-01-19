@@ -12,7 +12,9 @@
 #include "array.h"
 #include "hashtable.h"
 
-/*Macroses only for use inside of load_module()*/
+#include <stdint.h>
+
+/* Macroses only for use inside of load_module() */
 #define _MOD_IMPORT_SYMBOL(TYPE, NAME, VAR_NAME) \
     TYPE VAR_NAME = *(TYPE *)dlsym(module->handle, NAME); \
     _error=dlerror(); \
@@ -40,24 +42,33 @@
     printf(SECTION); \
     printf("%s\n",ENDC); \
     printf("%s\n",module->PARAM_NAME);
-
+/* Structures */
 typedef struct{
-    array_t *arguments;
+    array_t* arguments;
 } module_config_t;
 
 typedef struct{
-    hashtable *arguments;
-    const char *version;
+    hashtable* arguments;
+    const char* version;
+    uint8_t* log_byte;
 } program_config_t;
 
 typedef struct{
-    void *handle;
-    char *name;
-    char *author;
-    char *description;
-    char *version;
-    module_config_t* (*mod_pull_config)(void);
-    void (*mod_push_config)(program_config_t *config);
+    void* handle;
+    char* name;
+    char* author;
+    char* description;
+    char* version;
+    char* filename;
+    module_config_t* (*mod_pull_config)(program_config_t* config);
+    void (*mod_on_init)(void);
 } module_t;
+
+/* Function prototypes */
+void modules_begin(void);
+void modules_configure(const char* version);
+module_t* module_load(char* path);
+void module_summary(module_t* module);
+void modules_load(char* path);
 
 #endif /* module_h */
