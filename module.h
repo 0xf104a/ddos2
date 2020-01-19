@@ -34,7 +34,7 @@
     }
 
 #define _MOD_STR_SET(NAME, VAR) \
-    module->NAME=malloc(strlen(VAR)*sizeof(char)); \
+    module->NAME=(char*)malloc((strlen(VAR)+1)*sizeof(char)); \
     strcpy(module->NAME, VAR);
 
 #define _MOD_SUMMARY_PRINT(SECTION,PARAM_NAME) \
@@ -45,6 +45,11 @@
 /* Structures */
 typedef struct{
     array_t* arguments;
+    char* name;
+    char* author;
+    char* description;
+    char* version;
+    //char* filename;
 } module_config_t;
 
 typedef struct{

@@ -33,9 +33,9 @@ void modules_configure(const char* version){
 }
 
 void module_register_arguments(array_t* _arguments){
-    int i=0;
-    for(;i<arguments->sz;++i){
-        _register_argument((argument_t*)arguments->base[i]);
+    size_t i=0;
+    for(;i<_arguments->sz;i++){
+        _register_argument((argument_t*)_arguments->base[i]);
     }
 }
 
@@ -44,26 +44,21 @@ module_t* module_load(char* path){
     module_t *module=(module_t*)malloc(sizeof(module));
     module->handle=dlopen(path, RTLD_LAZY);
     if (!module->handle) {
-        warn("Loading module %s failed: %s",path,dlerror());
+        error("Loading module %s failed: %s",path,dlerror());
         return NULL;
     }
     /*Load functions*/
     _MOD_IMPORT_FUNCTION("mod_config_pull", mod_pull_config);
     _MOD_IMPORT_FUNCTION("mod_on_init", mod_on_init);
-    /*Load other symbols*/
-    _MOD_IMPORT_SYMBOL(const char*, "mod_name", mod_name);
-    _MOD_IMPORT_SYMBOL(const char*, "mod_author", mod_author);
-    _MOD_IMPORT_SYMBOL(const char*, "mod_version", mod_version);
-    _MOD_IMPORT_SYMBOL(const char*, "mod_description", mod_description);
-    /*Set module params*/
-    _MOD_STR_SET(name, mod_name);
-    _MOD_STR_SET(author, mod_author);
-    _MOD_STR_SET(version, mod_version);
-    _MOD_STR_SET(description, mod_description);
-    _MOD_STR_SET(filename, path);
+
     /*Configure*/
-    module_config_t* config=module->mod_pull_config(p_config);
+    module_config_t* config=(module->mod_pull_config)(p_config);
     module_register_arguments(config->arguments);
+    /* Set params */
+    _MOD_STR_SET(name, config->name);
+    _MOD_STR_SET(author, config->author);
+    _MOD_STR_SET(version, config->version);
+    _MOD_STR_SET(description, config->description);
     /*Register module*/
     hashtbl_add(modules, module->name, module);
     
@@ -94,11 +89,18 @@ void modules_load(char* path){
     file=readdir(directory);
     //FIXME: Incorrect path to file: need to concat modules path and module name
     while (file!=NULL) {
-        if(is_regular_file(file->d_name)){
-            debug("Loading module:%s",file->d_name);
-            module_load(file->d_name);
+        /* Get full filename */
+        char* fname=(char*)malloc(sizeof(char)*(strlen(MODULES_DIR)+strlen(file->d_name)+2));
+        strcpy(fname, MODULES_DIR);
+        strcat(fname, file->d_name);
+        /* Load module if file was found */
+        if(is_regular_file(fname)){
+            debug("Loading module:%s",fname);
+            if(!module_load(fname)){
+                warn("Module %s was not loaded!", fname);
+            }
         }else{
-            debug_warn("Omitting non regular file:%s",file->d_name);
+            debug_warn("Omitting non-regular file:%s",fname);
         }
         file=readdir(directory);
     }

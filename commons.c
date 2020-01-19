@@ -17,7 +17,7 @@ bool is_regular_file(const char *path)
 {
     struct stat path_stat;
     stat(path, &path_stat);
-    return S_ISFIFO(path_stat.st_mode);
+    return S_ISREG(path_stat.st_mode);
 }
 
 void ch_local_dir(void){

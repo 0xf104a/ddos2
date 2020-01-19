@@ -16,6 +16,6 @@
 #define HASHTBL_CAPACITY 256 //Default hashtable capacity
 #define DEBUG            1 
 #define VERSION          "2.0a 2 573p5 fr0m h311"
-#define MODULES_DIR      "modules/"
+#define MODULES_DIR      "/Users/andre/Documents/Projects/ddos2/ddos2/bin/modules/"
 
 #endif /* config_h */
