@@ -1,4 +1,4 @@
-name: Core release
+name: Core release x86_64
 
 on: [push]
 
