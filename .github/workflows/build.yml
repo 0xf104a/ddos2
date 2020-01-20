@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v1
-    - uses: .github/workflows/build/
+    - uses: .github/workflows/build@v1
