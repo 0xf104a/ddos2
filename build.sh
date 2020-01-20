@@ -94,10 +94,10 @@ if [[ $1 == "-h" ]]; then
 fi
 
 BASEDIR=`pwd`
-CC="gcc-9"
-CFLAGS="-c -I${BASEDIR} -Wall -ldl -Wno-unused-command-line-argument"
+CC="gcc"
+CFLAGS="-c -I${BASEDIR} -Wall"
 LD="ld"
-LD_FLAGS=""
+LD_FLAGS="-ldl"
 OBJ_DIR="obj/"
 BIN_DIR="bin/"
 MODULES_DIR="modules/"
@@ -115,6 +115,8 @@ target_clean(){
 }
 
 target_debug(){
+   CC="gcc-9"
+   
    info "Building debug."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
@@ -130,8 +132,6 @@ target_debug(){
 }
 
 target_release(){
-   CC="gcc"
-   
    info "Building release."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
@@ -143,7 +143,7 @@ target_release(){
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${LD} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
 }
 
 target_modules(){
