@@ -1,27 +1,12 @@
 name: format
 
 on: [push]
-uses: DoozyX/clang-format-lint-action@v0.5
-  with:
-    # Source folder to check formatting
-    source: . # optional, default is .
-    # Folder to exclude from formatting check
-    # List of extensions to check
-    extensions: c,h
-    # Version of clang-format
-    clangFormatVersion: 9
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        ./build.sh clean
-        ./build.sh debug
-        ./build.sh modules
+    - uses: DoozyX/clang-format-lint-action@v0.5
   
