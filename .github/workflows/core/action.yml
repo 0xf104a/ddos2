@@ -1,0 +1,6 @@
+name: "Build core in docker"
+description: "Builds core app using Dockerfile"
+
+runs: 
+  using: 'docker'
+  image: 'Dockerfile'
