@@ -26,6 +26,9 @@
 
 #define LVL_FULL    0b1111111
 #define LVL_RELEASE 0b1111110
+#define LVL_NONE    0b0000000
+#define LVL_FAST    0b0110000
+#define LVL_STAT    0b1100000 //shows only status and fatal errors
 
 #define HEADER "\033[95m"
 #define OKBLUE "\033[94m"
