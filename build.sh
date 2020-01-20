@@ -130,6 +130,8 @@ target_debug(){
 }
 
 target_release(){
+   CC="gcc"
+   
    info "Building release."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
