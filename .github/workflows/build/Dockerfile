@@ -1,5 +1,5 @@
 FROM gcc:9
-ADD . /usr/src/build
+ADD /home/runner/work/ddos2/ddos2 /usr/src/build
 WORKDIR /usr/src/build
 CMD ["ls"]
 
