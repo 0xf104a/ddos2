@@ -95,7 +95,7 @@ if [[ $1 == "-h" ]]; then
 fi
 
 BASEDIR=`pwd`
-CC="gcc"
+CC="gcc-9"
 CFLAGS="-c -I${BASEDIR} -Wall"
 LD="ld"
 LD_FLAGS=""
