@@ -1,1 +1,11 @@
-
+- name: format
+  uses: DoozyX/clang-format-lint-action@v0.5
+  with:
+    # Source folder to check formatting
+    source: # optional, default is .
+    # Folder to exclude from formatting check
+    exclude: # optional, default is none
+    # List of extensions to check
+    extensions: # optional, default is c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx
+    # Version of clang-format
+    clangFormatVersion: # optional, default is 9
