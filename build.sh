@@ -10,12 +10,17 @@
 cd $(dirname `which $0`)
 
 # Colors
-bold=$(tput bold)
-normal=$(tput sgr0)
-red=$(tput setaf 1)
-green=$(tput setaf 2)
-blue=$(tput setaf 4)
-yellow=$(tput setaf 11)
+code=`command -v tput > /dev/null; echo $?`
+if [[ $code -eq 0 ]]; then
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    red=$(tput setaf 1)
+    green=$(tput setaf 2)
+    blue=$(tput setaf 4)
+    yellow=$(tput setaf 11)
+else
+    echo "[!]: No colors will be available: tput command was not found."
+fi
 
 echo " ______   ______   _______  _______  _______"
 echo "(  __  \ (  __  \ (  ___  )(  ____ \/ ___   )"
@@ -90,7 +95,7 @@ if [[ $1 == "-h" ]]; then
 fi
 
 BASEDIR=`pwd`
-CC="gcc-9"
+CC="gcc"
 CFLAGS="-c -I${BASEDIR} -Wall"
 LD="ld"
 LD_FLAGS=""
