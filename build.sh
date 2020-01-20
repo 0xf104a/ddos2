@@ -10,8 +10,7 @@
 cd $(dirname `which $0`)
 
 # Colors
-code=`command -v tput > /dev/null; echo $?`
-if [[ $code -eq 0 ]]; then
+if test -t 1; then
     bold=$(tput bold)
     normal=$(tput sgr0)
     red=$(tput setaf 1)
@@ -95,7 +94,7 @@ if [[ $1 == "-h" ]]; then
 fi
 
 BASEDIR=`pwd`
-CC="gcc"
+CC="gcc-9"
 CFLAGS="-c -I${BASEDIR} -Wall"
 LD="ld"
 LD_FLAGS=""
