@@ -95,7 +95,7 @@ fi
 
 BASEDIR=`pwd`
 CC="gcc-9"
-CFLAGS="-c -I${BASEDIR} -Wall"
+CFLAGS="-c -I${BASEDIR} -Wall -ldl -Wno-unused-command-line-argument"
 LD="ld"
 LD_FLAGS=""
 OBJ_DIR="obj/"
