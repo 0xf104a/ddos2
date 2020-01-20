@@ -13,8 +13,7 @@ jobs:
     - uses: docker://gcc:9
     - name: Build
       run: |
-        ls
-        pwd
+        docker -v
         ./build.sh clean
         ./build.sh debug
         ./build.sh modules
