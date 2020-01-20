@@ -11,7 +11,8 @@ jobs:
     - uses: docker://gcc:9
     - name: build-debug
       run: |
-        cd /github/workspace/
+        ls
+        pwd
         ./build.sh clean
         ./build.sh debug
         ./build.sh modules
