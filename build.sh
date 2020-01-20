@@ -129,6 +129,7 @@ target_debug(){
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
    exec "${CC} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   leave_dir
 }
 
 target_release(){
@@ -144,6 +145,7 @@ target_release(){
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
    exec "${CC} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   leave_dir
 }
 
 target_modules(){
