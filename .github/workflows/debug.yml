@@ -1,4 +1,4 @@
-name: CI
+name: build
 
 on: [push]
 
@@ -8,9 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1!
-    - name: build-debug
+    - name: Checkout
+      uses: actions/checkout@v1
+    - uses: docker://gcc:9
+    - name: Build
       run: |
+        ls
+        pwd
         ./build.sh clean
         ./build.sh debug
         ./build.sh modules
