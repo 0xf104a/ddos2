@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v1
     - uses: docker://gcc:9
-    - name: build-debug
+    - name: Build
       run: |
         ls
         pwd
