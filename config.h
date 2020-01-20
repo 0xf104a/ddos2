@@ -14,8 +14,9 @@
 #endif
 
 #define HASHTBL_CAPACITY 256 //Default hashtable capacity
-#define DEBUG            1 
-#define VERSION          "2.0a 2 573p5 fr0m h311"
-#define MODULES_DIR      "modules/"
+#define DEBUG            1   //Set 1 for debug mode
+#define VERSION          "2.0a 2 573p5 fr0m h311" //Just version
+#define MODULES_DIR      "modules/" //Directory where module's so files are stored
+#define PATH_MAX_LEN     512 //Max length of path
 
 #endif /* config_h */

@@ -90,7 +90,7 @@ if [[ $1 == "-h" ]]; then
 fi
 
 BASEDIR=`pwd`
-CC="gcc"
+CC="gcc-9"
 CFLAGS="-c -I${BASEDIR} -Wall"
 LD="ld"
 LD_FLAGS=""
@@ -100,7 +100,7 @@ MODULES_DIR="modules/"
 MODULES_BIN="bin/modules/"
 EXECUTABLE="ddos2"
 
-declare -a SOURCES=("commons" "array" "hashtable" "message" "module" "arguments" "main")
+declare -a SOURCES=("network" "commons" "array" "hashtable" "message" "module" "arguments" "main")
 declare -a MODULES=("mod_a")
 
 target_clean(){
@@ -118,11 +118,11 @@ target_debug(){
    leave_dir
    for file in "${SOURCES[@]}"
    do
-       exec "${CC} ${CFLAGS} ${file}.c -o ${OBJ_DIR}${file}.o"
+       exec "${CC} ${CFLAGS} -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${CC} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
 }
 
 target_release(){

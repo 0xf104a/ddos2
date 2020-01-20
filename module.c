@@ -41,7 +41,7 @@ void module_register_arguments(array_t* _arguments){
 
 module_t* module_load(char* path){
     char* _error;
-    module_t *module=(module_t*)malloc(sizeof(module));
+    module_t *module=(module_t*)malloc(sizeof(module_t));
     module->handle=dlopen(path, RTLD_LAZY);
     if (!module->handle) {
         error("Loading module %s failed: %s",path,dlerror());
@@ -53,6 +53,10 @@ module_t* module_load(char* path){
 
     /*Configure*/
     module_config_t* config=(module->mod_pull_config)(p_config);
+    if(!config){
+        error("Programming error: config==NULL!Check that your module work properly.Called function: mod_config_pull(). File: %s.(%s:%d)",path,__FILE__,__LINE__);
+        return NULL;
+    }
     module_register_arguments(config->arguments);
     /* Set params */
     _MOD_STR_SET(name, config->name);
@@ -87,7 +91,7 @@ void modules_load(char* path){
         die("Could not open modules directory: %s(%d).",strerror(errno),errno);
     }
     file=readdir(directory);
-    //FIXME: Incorrect path to file: need to concat modules path and module name
+    //FIXED: Incorrect path to file: need to concat modules path and module name
     while (file!=NULL) {
         /* Get full filename */
         char* fname=(char*)malloc(sizeof(char)*(strlen(MODULES_DIR)+strlen(file->d_name)+2));

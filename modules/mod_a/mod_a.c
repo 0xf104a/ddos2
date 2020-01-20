@@ -28,7 +28,7 @@ typedef struct{
 module_config_t* mod_config_pull(program_config_t* config){
    
  //  printf("config@%d\n\n",config);
-   printf("Arguments addr:%d\n",config->arguments);
+   /*printf("Arguments addr:%d\n",config->arguments);
   
    printf("Program version:%s\n",config->version);
     printf("Log byte:%d\n",*config->log_byte);
@@ -41,8 +41,8 @@ module_config_t* mod_config_pull(program_config_t* config){
    strcpy(cfg->name,mod_name);
    strcpy(cfg->author,mod_author);
    strcpy(cfg->description,mod_description);
-   strcpy(cfg->version,mod_version);
-   return cfg;
+   strcpy(cfg->version,mod_version);*/
+   return NULL;
 }
 void mod_on_init(void){
    printf("mod_on_init() called.\n");

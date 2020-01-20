@@ -7,6 +7,7 @@
 //
 
 #include "commons.h"
+#include "config.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -24,5 +25,6 @@ void ch_local_dir(void){
     /*
      Sets wroking direcotry to executable's directory
      */
+    char* work_dir;
     
 }
