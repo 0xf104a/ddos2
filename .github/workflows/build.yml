@@ -1,0 +1,15 @@
+ame: build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - uses: ./
+    - name: Build
+      uses: actions/build

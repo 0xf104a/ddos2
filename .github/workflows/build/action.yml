@@ -1,0 +1,6 @@
+name: "Build in docker"
+description: "Builds app using Dockerfile"
+
+runs: 
+  using: 'docker'
+  image: 'Dockerfile'
