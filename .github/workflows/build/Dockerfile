@@ -1,5 +1,5 @@
 FROM gcc:9
-ADD / /usr/src/build
+ADD . /usr/src/build
 WORKDIR /usr/src/build
-RUN ls
+CMD ["ls"]
 
