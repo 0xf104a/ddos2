@@ -3,10 +3,12 @@ name: format
 on: [push]
 
 jobs:
-  format:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: DoozyX/clang-format-lint-action@v0.5
-  
+    - uses: actions/checkout@v1
+    - uses: DoozyX/clang-format-lint-action@v0.4.1
+      with:
+        source: '.'
+        extensions: 'c,h'
