@@ -1,4 +1,4 @@
-name: CI
+name: build
 
 on: [push]
 
@@ -11,6 +11,7 @@ jobs:
     - uses: docker://gcc:9
     - name: build-debug
       run: |
+        cd /github/workspace/
         ./build.sh clean
         ./build.sh debug
         ./build.sh modules
