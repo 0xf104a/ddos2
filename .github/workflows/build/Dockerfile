@@ -1,5 +1,4 @@
 FROM bash:3.2
 ADD . /build
-WORKDIR /build
-CMD ["bash -e 'ls'"]
+CMD ["/usr/local/bin/bash -e 'ls'"]
 
