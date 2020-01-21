@@ -12,5 +12,6 @@
 #include <stdbool.h>
 
 bool is_regular_file(const char *path);
+void ch_local_dir(const char* argv0);
 
 #endif /* commons_h */
