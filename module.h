@@ -49,7 +49,6 @@ typedef struct{
     char* author;
     char* description;
     char* version;
-    //char* filename;
 } module_config_t;
 
 typedef struct{

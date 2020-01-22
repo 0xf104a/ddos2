@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "array.h"
-#include "hashtable.h"
+#include <ddos2/ddos2.h>
+#include <ddos2/arguments.h>
+#include <ddos2/hashtable.h>
 
 char* mod_name="mod_a";
 char* mod_author="Anrewerr@github.com";
 char* mod_version="<none>";
 char* mod_description="Useless module for debugging.";
-
+/*
 typedef struct{
     hashtable* arguments;
     const char* version;
@@ -24,11 +24,11 @@ typedef struct{
     char* version;
     //char* filename;
 } module_config_t;
-
+*/
 module_config_t* mod_config_pull(program_config_t* config){
    
  //  printf("config@%d\n\n",config);
-   /*printf("Arguments addr:%d\n",config->arguments);
+  /* printf("Arguments addr:%d\n",config->arguments);
   
    printf("Program version:%s\n",config->version);
     printf("Log byte:%d\n",*config->log_byte);
@@ -41,7 +41,10 @@ module_config_t* mod_config_pull(program_config_t* config){
    strcpy(cfg->name,mod_name);
    strcpy(cfg->author,mod_author);
    strcpy(cfg->description,mod_description);
-   strcpy(cfg->version,mod_version);*/
+   strcpy(cfg->version,mod_version);
+   */
+   ddos2_begin(config);
+   argument_add("--mod-a","Super useless one.",ARG_BOOL,argbool(false),true);
    return NULL;
 }
 void mod_on_init(void){

@@ -7,8 +7,6 @@
 #include "hashtable.h"
 
 #include "array.h"
-//For debug
-#include "message.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +37,7 @@ _hashtable_node *create_node(char *_key,void *_data){
     _hashtable_node *node=malloc(sizeof(_hashtable_node));
     node->next=NULL;
     node->value=_data;
-    node->key=(char *)malloc(sizeof(char)*strlen(_key));
+    node->key=(char *)malloc(sizeof(char)*strlen(_key)+sizeof(char));
     strcpy(node->key, _key);
     return node;
 }

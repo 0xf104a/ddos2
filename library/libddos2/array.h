@@ -11,6 +11,7 @@
 
 #include <sys/types.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct{
     size_t sz;

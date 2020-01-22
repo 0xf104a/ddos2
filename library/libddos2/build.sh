@@ -21,17 +21,6 @@ else
     echo "[!]: No colors will be available: not supported."
 fi
 
-echo " ______   ______   _______  _______  _______"
-echo "(  __  \ (  __  \ (  ___  )(  ____ \/ ___   )"
-echo "| (  \  )| (  \  )| (   ) || (    \/\/   )  |"
-echo "| |   ) || |   ) || |   | || (_____     /   )"
-echo "| |   | || |   | || |   | |(_____  )  _/   /"
-echo "| |   ) || |   ) || |   | |      ) | /   _/"
-echo "| (__/  )| (__/  )| (___) |/\\____) |(   (__/\\"
-echo "(______/ (______/ (_______)\\_______)\_______/"
-echo "                                     Build System v2.0-alpha"
-
-
 error(){
     echo "${bold}${red}[-]:${normal}${1}"
 }
@@ -85,65 +74,47 @@ if [ $# -eq 0 ]; then
 fi
 
 if [[ $1 == "-h" ]]; then
-    echo "Usage:"$0" <-h> [all|debug|release|clean|library]"
+    echo "Usage:"$0" <-h> [all|debug|release]"
     echo "-h        Display this help message and exit."
     echo "debug     Build in debug mode"
     echo "release   Build in release mode"
-    echo "library   Build libddos2"
     echo "clean     Remove obj/ bin/ directories."
     exit 0
 fi
 
 BASEDIR=`pwd`
 CC="gcc"
-CFLAGS="-c -Wall -I${BASEDIR}/library/libddos2"
-LD="ld"
-LD_FLAGS="-ldl"
-OBJ_DIR="obj/"
-BIN_DIR="bin/"
-LIB_DIR="lib/"
-MODULES_DIR="modules/"
-MODULES_BIN="bin/modules/"
-EXECUTABLE="ddos2"
+CFLAGS="-c -I${BASEDIR} -Wall -fPIC"
+LD="ar"
+LD_FLAGS="-rs"
+OBJ_DIR="../../obj/"
+BIN_DIR="../../lib/"
 
-declare -a SOURCES=("network" "commons" "array" "hashtable" "message" "module" "arguments" "main")
-declare -a MODULES=("mod_a")
+OUTPUT="libddos2.a"
 
-target_clean(){
-   info "Cleaning up."
-   exec "rm -rf ${OBJ_DIR}"
-   exec "rm -rf ${BIN_DIR}"
-   exec "rm -rf ${LIB_DIR}"
-   success "Cleaned."
-}
+declare -a SOURCES=("hashtable" "array" "arguments" "ddos2" "message")
 
-target_library(){
-   change_dir "library/libddos2"
-   exec "./build.sh debug" #TODO:In relaease – set release target
-   leave_dir
-}
 
 target_debug(){
    CC="gcc-9"
    
-   info "Building debug."
+   info "Building libddos2."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
    require_directory $MODULES_BIN
    leave_dir
    for file in "${SOURCES[@]}"
    do
-       exec "${CC} ${CFLAGS} -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
+       exec "${CC} ${CFLAGS} ${file}.c -o ${OBJ_DIR}${file}.o"
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${LD} ${LD_FLAGS} ${BASEDIR}/${BIN_DIR}${OUTPUT} ${objects}"
    leave_dir
-   success "Succesfully built debug."
 }
 
 target_release(){
-   info "Building release."
+   info "Building libddos2."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
    require_directory $MODULES_BIN
@@ -154,35 +125,14 @@ target_release(){
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${CC} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${OUTPUT} ${objects}"
    leave_dir
-   success "Succesfully built release."
 }
 
-target_modules(){
-   target_library
-   info "Building modules."
-   require_directory $MODULES_BIN
-   for module in "${MODULES[@]}"
-   do
-     change_dir $MODULES_DIR
-     change_dir $module
-     exec ./build.sh all
-     leave_dir
-   done
-   success "Succesfully built modules."
-}
-
-
-
-target_all(){
-   target_clean
-   target_release
-   target_modules
-}
 if [[ `type -t "target_${1}"` == "function" ]]; then
      eval "target_${1}"
      success "Done."
 else
      error "No such target:${1}."
 fi
+

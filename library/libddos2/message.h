@@ -10,6 +10,7 @@
 #define message_h
 
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,6 +27,9 @@
 
 #define LVL_FULL    0b1111111
 #define LVL_RELEASE 0b1111110
+#define LVL_NONE    0b0000000
+#define LVL_FAST    0b0110000
+#define LVL_STAT    0b1100000 //shows only status and fatal errors
 
 #define HEADER "\033[95m"
 #define OKBLUE "\033[94m"
@@ -61,8 +65,6 @@ printf(STYLE);                        \
 vprintf(format, args);                \
 va_end(args)
 
-extern uint8_t log_level;
-
 void debug_warn(const char* format, ...);
 void debug(const char* format, ...);
 void info(const char* format, ...);
@@ -70,10 +72,11 @@ void warn(const char* format, ...);
 void error(const char* format, ...);
 void success(const char* format, ...);
 void die(const char* format, ...);
-
-
+/*
 void set_loglevel(uint8_t _log_level);
 void add_loglevel(uint8_t _log_level);
 void remove_loglevel(uint8_t _log_level);
+*/
+void message_begin(uint8_t* __log_level);
 
 #endif /* message_h */

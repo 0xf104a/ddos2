@@ -10,8 +10,12 @@
 
 #include "message.h" //For debug
 
+
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <strings.h>
+#include <assert.h>
 
 array_t *array_create(int capacity){
     array_t *_array=(array_t *)malloc(sizeof(array_t));
@@ -44,4 +48,39 @@ bool in_array(array_t *_array, void *object){
         }
     }
     return false;
+}
+
+void array_pop(array_t *_array){
+    if(_array->sz<=1){
+        return ;
+    }
+    _array->base=(void**)realloc(_array->base, (_array->sz-1)*sizeof(void*));
+    _array->sz--;
+}
+
+void array_cat(array_t *dst,array_t *src){
+    int i=0;
+    for(;i<src->sz;++i){
+        array_add(dst, src->base[i]);
+    }
+}
+
+array_t *array_cpy(array_t *src){
+    array_t *_new=array_create((int)src->sz);
+    memcpy(_new->base, src->base, sizeof(void*)*src->sz);
+    _new->sz=src->sz;
+    return _new;
+}
+
+void array_del(array_t *_array,int pos){
+    assert(pos<_array->sz);
+    if(pos==_array->sz-1){
+        array_pop(_array);
+        return ;
+    }
+    int i=pos+1;
+    for(;i<_array->sz;i++){
+        _array->base[i-1]=_array->base[i];
+    }
+    array_pop(_array);
 }

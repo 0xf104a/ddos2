@@ -35,8 +35,10 @@ int main(int argc, const char * argv[]) {
 #else
     set_loglevel(LVL_RELEASE);
 #endif
+    
     info("Built with GCC %s at %s %s",__VERSION__,__DATE__,__TIME__);
     ch_local_dir(argv[0]);
+    
     arguments_begin();
     modules_begin();
     modules_configure(VERSION);
