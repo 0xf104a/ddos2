@@ -1,0 +1,6 @@
+name: "Build library in docker"
+description: "Builds liddos2 using Dockerfile"
+
+runs: 
+  using: 'docker'
+  image: 'Dockerfile'
