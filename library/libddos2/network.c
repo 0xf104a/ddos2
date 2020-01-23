@@ -9,21 +9,21 @@
 #include "network.h"
 #include "arguments.h"
 #include "message.h"
-#include "config.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 
 hashtable* network_ifaces=NULL;
-bool network_statistics=true;
+bool stats=true;
 
-void network_begin(void){
-    network_ifaces=hashtbl_create(HASHTBL_CAPACITY);
+void network_begin(hashtable* ifaces, bool _stats){
+    network_ifaces=ifaces;
+    stats=_stats;
 }
 
 void network_set_stats(bool stat){//Sets wheteher we need to collect interface statisitcs
-    network_statistics=stat;
+    stats=stat;
 }
 
 iface_t* network_iface(char* name){
@@ -38,7 +38,6 @@ iface_t* network_iface(char* name){
     iface->packet_receive=NULL;
     return iface;
 }
-
 void register_iface(iface_t* iface){
     if(!network_ifaces){
         error("Programming error: network_ifaces==NULL! Have you called network_begin()?");
@@ -46,20 +45,6 @@ void register_iface(iface_t* iface){
     }
     hashtbl_add(network_ifaces, iface->name, iface);
     debug("Registered network interface: %s",iface->name);
-#if DEBUG
-    if(!iface->connection_close){
-        warn("Interface %s does not support connection_close(%s:%d)",iface->name,__FILE__,__LINE__);
-    }
-    if(!iface->connection_open){
-        warn("Interface %s does not support connection_open(%s:%d)",iface->name,__FILE__,__LINE__);
-    }
-    if(!iface->packet_send){
-        warn("Interface %s does not support packet_send(%s:%d)",iface->name,__FILE__,__LINE__);
-    }
-    if(!iface->packet_receive){
-        warn("Interface %s does not support packet_receive(%s:%d)",iface->name,__FILE__,__LINE__);
-    }
-#endif
 }
 
 connection_t* connection_open(iface_t* iface, char* target){
@@ -98,7 +83,7 @@ bool _packet_send(packet_t* packet){
         error("Programming error: %s: Not supported: Interface %s does not support packet_send(%s:%d)",__FUNCTION__,__FILE__,__LINE__);
         return false;
     }
-    if(network_statistics){
+    if(stats){
         packet->iface->bytes_sent+=packet->sz;
         packet->iface->packets_sent++;
     }

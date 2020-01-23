@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <assert.h>
 
 unsigned long __hash(unsigned char *str) //djb2 hash by Dan Bernstein

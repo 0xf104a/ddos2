@@ -12,6 +12,7 @@
 #include "config.h"
 #include "arguments.h"
 #include "commons.h"
+#include "network.h"
 
 #include <stdlib.h>
 #include <dlfcn.h>
@@ -21,6 +22,7 @@
 
 hashtable* modules;
 program_config_t *p_config;
+
 void modules_begin(void){
     modules=hashtbl_create(HASHTBL_CAPACITY);
     p_config=(program_config_t*)malloc(sizeof(program_config_t));
@@ -30,6 +32,8 @@ void modules_configure(const char* version){
     p_config->arguments=arguments;
     p_config->log_byte=&log_level;
     p_config->version=version;
+    p_config->network_ifaces=network_ifaces;
+    p_config->net_stats=network_statistics;
 }
 
 void module_register_arguments(array_t* _arguments){
@@ -57,16 +61,23 @@ module_t* module_load(char* path){
         error("Programming error: config==NULL!Check that your module work properly.Called function: mod_config_pull(). File: %s.(%s:%d)",path,__FILE__,__LINE__);
         return NULL;
     }
-    module_register_arguments(config->arguments);
     /* Set params */
     _MOD_STR_SET(name, config->name);
     _MOD_STR_SET(author, config->author);
     _MOD_STR_SET(version, config->version);
     _MOD_STR_SET(description, config->description);
+    _MOD_STR_SET(filename, path);
     /*Register module*/
     hashtbl_add(modules, module->name, module);
-    
+
     debug("Loaded: %s",path);
+    
+    /* Free config since it used only on module initialization */
+    free(config->author);
+    free(config->description);
+    free(config->name);
+    free(config->version);
+    free(config);
     
     return module;
 }

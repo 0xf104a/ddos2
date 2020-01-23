@@ -44,7 +44,6 @@
     printf("%s\n",module->PARAM_NAME);
 /* Structures */
 typedef struct{
-    array_t* arguments;
     char* name;
     char* author;
     char* description;
@@ -53,6 +52,8 @@ typedef struct{
 
 typedef struct{
     hashtable* arguments;
+    hashtable* network_ifaces;
+    bool net_stats;
     const char* version;
     uint8_t* log_byte;
 } program_config_t;

@@ -92,13 +92,13 @@ BIN_DIR="../../lib/"
 
 OUTPUT="libddos2.a"
 
-declare -a SOURCES=("hashtable" "array" "arguments" "ddos2" "message")
+declare -a SOURCES=("network" "hashtable" "array" "arguments" "ddos2" "message")
 
 
 target_debug(){
    CC="gcc-9"
    
-   info "Building libddos2."
+   info "Building libddos2 in debug mode."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
    require_directory $MODULES_BIN
@@ -125,7 +125,7 @@ target_release(){
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${OUTPUT} ${objects}"
+   exec "${LD} ${LD_FLAGS} ${BASEDIR}/${BIN_DIR}${OUTPUT} ${objects}"
    leave_dir
 }
 

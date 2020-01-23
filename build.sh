@@ -119,7 +119,13 @@ target_clean(){
 
 target_library(){
    change_dir "library/libddos2"
-   exec "./build.sh debug" #TODO:In relaease – set release target
+   exec "./build.sh release" #TODO:In relaease – set release target
+   leave_dir
+}
+
+target_library-debug(){
+   change_dir "library/libddos2"
+   exec "./build.sh debug"
    leave_dir
 }
 
@@ -167,7 +173,7 @@ target_modules(){
    do
      change_dir $MODULES_DIR
      change_dir $module
-     exec ./build.sh all
+     exec "./build.sh all"
      leave_dir
    done
    success "Succesfully built modules."
@@ -176,8 +182,14 @@ target_modules(){
 
 
 target_all(){
-   target_clean
+   target_library
    target_release
+   target_modules
+}
+
+target_all-debug(){
+   target_library_debug
+   target_debug
    target_modules
 }
 if [[ `type -t "target_${1}"` == "function" ]]; then
