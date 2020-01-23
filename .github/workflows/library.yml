@@ -11,5 +11,5 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Build
-      uses: ./.github/workflows/core/
+      uses: ./.github/workflows/library/
 
