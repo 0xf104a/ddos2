@@ -188,7 +188,7 @@ target_all(){
 }
 
 target_all-debug(){
-   target_library_debug
+   target_library-debug
    target_debug
    target_modules
 }
