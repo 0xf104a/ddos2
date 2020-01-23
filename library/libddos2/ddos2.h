@@ -14,7 +14,7 @@ typedef struct{
 } program_config_t;
 
 typedef struct{
-    array_t* arguments;
+//    array_t* arguments;
     char* name;
     char* author;
     char* description;

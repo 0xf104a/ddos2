@@ -75,5 +75,7 @@ void modules_configure(const char* version);
 module_t* module_load(char* path);
 void module_summary(module_t* module);
 void modules_load(char* path);
+void modules_list(void);
+module_t* module_get(char* name);
 
 #endif /* module_h */

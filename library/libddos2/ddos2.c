@@ -14,7 +14,7 @@ void ddos2_begin(program_config_t* config){
 
 module_config_t* ddos2_modconfig(char* name, char* author, char* description,char* version){
      module_config_t* cfg=(module_config_t*)malloc(sizeof(module_config_t));
-     cfg->arguments=array_create(1);
+//     cfg->arguments=array_create(1);
      cfg->name=(char*)malloc(sizeof(char)*strlen(name)+sizeof(char));
      cfg->author=(char*)malloc(sizeof(char)*strlen(author)+sizeof(char));
      cfg->description=(char*)malloc(sizeof(char)*strlen(description)+sizeof(char));

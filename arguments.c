@@ -149,3 +149,10 @@ void arguments_help(const char *progname){
         printf("    %s – %s\n",argument->name, argument->description);
     }
 }
+argvalue argument_value_get_s(char *name, argtype type){//Secure version of argument_value_get
+    argument_t *argument=argument_get(name);
+    if(argument->type!=type){
+        die("Programming error: argument %s has wrong type!(%s:%d)",name,__FILE__,__LINE__);
+    }
+    return argument->value;
+}

@@ -6,13 +6,15 @@
 #include "hashtable.h"
 
 typedef struct{
-  hashtable* arguments;
-  uint8_t* log_byte;
-  char* version;
+    hashtable* arguments;
+    hashtable* network_ifaces;
+    bool net_stats;
+    const char* version;
+    uint8_t* log_byte;
 } program_config_t;
 
 typedef struct{
-    array_t* arguments;
+//    array_t* arguments;
     char* name;
     char* author;
     char* description;

@@ -120,3 +120,24 @@ void modules_load(char* path){
         file=readdir(directory);
     }
 }
+
+void modules_list(void){
+    int i=0;
+    printf("%-25s%-10s%-20s\n", "Name", "Version", "Author");
+    for(;i<modules->sz;++i){
+        module_t* module = (module_t*)modules->values->base[i];
+        printf("%-25s%-10s%-20s\n", module->name, module->version, module->author);
+    }
+}
+
+bool module_loaded(char* name){
+    return hashtbl_check_key(modules, name);
+}
+
+module_t* module_get(char* name){
+    if(!module_loaded(name)){
+        error("Programming error: module %s was not loaded!(%s:%d)",__FILE__,__LINE__);
+    }
+    return hashtbl_get(modules, name);
+}
+
