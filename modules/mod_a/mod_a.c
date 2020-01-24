@@ -6,7 +6,7 @@
 #include <ddos2/hashtable.h>
 #include <ddos2/message.h>
 char* mod_name="mod_a";
-char* mod_author="Anrewerr@github.com";
+char* mod_author="Andrewerr@github.com";
 char* mod_version="<none>";
 char* mod_description="Useless module for debugging.";
 /*

@@ -14,6 +14,7 @@
 #endif
 
 #define HASHTBL_CAPACITY 256 //Default hashtable capacity
+#define ARRAY_CPACITY    1   //Default array capacity
 #define DEBUG            1   //Set 1 for debug mode
 #define VERSION          "2.0a 2 573p5 fr0m h311" //Just version
 #define MODULES_DIR      "modules/" //Directory where module's so files are stored
