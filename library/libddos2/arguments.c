@@ -36,8 +36,7 @@ void _register_argument(argument_t *argument){
     }
 }
 
-
-argument_t *argument_create(char* name, char* description, argtype type, bool compulsory, argvalue _default,bool has_default_value){
+argument_t *argument_create(char* name, char* description, argtype type, bool compulsory, argvalue _default,bool has_default_value, bool is_help){
     argument_t* argument=(argument_t*)malloc(sizeof(argument_t));
     argument->name=(char*)malloc(sizeof(char)*(strlen(name)+1));
     argument->description=(char*)malloc(sizeof(char)*(strlen(description)+1));
@@ -47,6 +46,7 @@ argument_t *argument_create(char* name, char* description, argtype type, bool co
     argument->compulsory=compulsory;
     argument->value=_default;
     argument->is_set=has_default_value;
+    argument->is_help=is_help;
     return argument;
 }
 
@@ -55,15 +55,15 @@ void argument_add_compulsory(char* name, char* description, argtype type){
         die("Programming error: rewriting argument: %s.(%s:%d)",name,__FILE__,__LINE__);
     }
     argvalue stub=argint(0);
-    argument_t *argument=argument_create(name, description, type, true, stub, false);
+    argument_t *argument=argument_create(name, description, type, true, stub, false, false);
     _register_argument(argument);
 }
 
-void argument_add(char* name, char* description, argtype type, argvalue _default, bool has_default_value){
+void argument_add(char* name, char* description, argtype type, argvalue _default, bool has_default_value, bool is_help){
     if(_argcheck(name)){
         die("Programming error: rewriting argument: %s.(%s:%d)",name,__FILE__,__LINE__);
     }
-    argument_t *argument=argument_create(name, description, type, false, _default, has_default_value);
+    argument_t *argument=argument_create(name, description, type, false, _default, has_default_value, is_help);
     _register_argument(argument);
 }
 
