@@ -22,3 +22,10 @@ char* hostname2ip(const char* hostname)
     }
     return NULL;
 }
+
+uint32_t u32_min(uint32_t a, uint32_t b){
+    if(a<b){
+       return a;
+    }
+    return b;
+}

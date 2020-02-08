@@ -49,6 +49,13 @@ typedef struct _iface_t{
 extern hashtable* network_ifaces;
 extern bool network_statistics;
 
+/*
+  !!!WARNING!!! While implementing your network module you 
+                DO NOT NEED to implement any of functions
+                below. You should implement functions which
+                are decalred in structure iface_t
+*/
+
 void network_begin(void);
 void network_set_stats(bool stat);
 iface_t* network_iface(char* name);

@@ -60,3 +60,6 @@ dkms.conf
 # Project
 bin/
 obj/
+
+# F*cking VIM
+*.sw*
