@@ -18,6 +18,19 @@
 #define DEBUG            1   //Set 1 for debug mode
 #define VERSION          "2.0a 2 573p5 fr0m h311" //Just version
 #define MODULES_DIR      "modules/" //Directory where module's so files are stored
-#define PATH_MAX_LEN     512 //Max length of path
+#define PATH_MAX_LEN     512 //Max length of path 
+
+#if defined(__clang__)
+#define __COMPILER "Clang"
+#endif
+
+#if defined(__GNUC__) && !defined(__COMPILER)
+#define __COMPILER "GCC"
+#endif
+
+#ifndef __COMPILER
+#warning "Unknown compiler: build may not be supported!"
+#define __COMPILER "(Unknown)"
+#endif
 
 #endif /* config_h */

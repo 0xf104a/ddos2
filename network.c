@@ -72,6 +72,7 @@ connection_t* connection_open(iface_t* iface, char* target){
         return NULL;
     }
     connection_t* connection=iface->connection_open(target);
+    connection->iface=iface;
     return connection;
 }
 

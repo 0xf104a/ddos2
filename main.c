@@ -15,17 +15,16 @@
 
 int main(int argc, const char * argv[]) {
 #pragma mark Logo
-    
-    printf(ORANGE);
-    printf(BOLD);
     printf(BLINK);
+    printf(WARNING);
+    printf(BOLD);
     printf(" (    (        )  (\n");
     printf(" )\\ ) )\\ )  ( /(  )\\ )      )\n");
     printf("(()/((()/(  )\\())(()/(   ( /(\n");
     printf("/(_))/(_))((_)\\  /(_))  )(_))\n");
     printf("(_))_(_))_   ((_)(_))   ((_)\n");
     printf(ENDC);
-    printf(ORANGE);
+    printf(WARNING);
     printf(BOLD);
     printf("|   \\|   \\ / _ \\/ __|  |_  )\n");
     printf("| |) | |) | (_) \\__ \\   / /\n");
@@ -40,7 +39,7 @@ int main(int argc, const char * argv[]) {
     
 #pragma mark Intializtion
     
-    info("Built with GCC %s at %s %s",__VERSION__,__DATE__,__TIME__);
+    info("Built with %s %s at %s %s",__COMPILER,__VERSION__,__DATE__,__TIME__);
     ch_local_dir(argv[0]);
     
     arguments_begin();

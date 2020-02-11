@@ -119,7 +119,7 @@ target_clean(){
 
 target_library(){
    change_dir "library/libddos2"
-   exec "./build.sh release" #TODO:In relaease – set release target
+   exec "./build.sh release" #TODO:In debug – set debug target
    leave_dir
 }
 

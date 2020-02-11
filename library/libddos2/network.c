@@ -57,6 +57,11 @@ connection_t* connection_open(iface_t* iface, char* target){
         return NULL;
     }
     connection_t* connection=iface->connection_open(target);
+    if(!connection){
+       debug_warn("NULL as connection was returned!");
+       return NULL;
+     } 
+    connection->iface=iface;
     return connection;
 }
 
