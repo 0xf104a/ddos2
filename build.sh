@@ -79,6 +79,45 @@ leave_dir(){
     cd $BASEDIR
 }
 
+check_equal(){
+    printf "${bold}${blue}[*]:${normal}Checking equality: ${1} and ${2}..."
+    if ! cmp $1 $2 >/dev/null 2>&1
+    then
+      printf "${bold}${red}FAILED${normal}\n"
+      return -1
+    fi
+    printf "${bold}${green}OK${normal}\n"
+    return 0
+}
+
+require_equal(){
+    check_equal $1 $2
+    local r=$?
+    if [ $r -eq -1 ]; then
+       error "Files ${1} and ${2} are not equal."
+       exit -1
+    fi
+}
+
+check_command(){
+    printf "${bold}${blue}[*]:${normal}Checking that ${1} avail..."
+    if ! [ -x "$(command -v ${1})" ]; then
+      printf "${bold}${red}FAILED${normal}\n"
+      return -1
+    fi
+    printf "${bold}${green}OK${normal}\n"
+    return 0
+}
+
+require_command(){
+    check_command $1
+    local r=$?
+    if [ $r -eq -1 ]; then
+       error "Command ${1} is not avail."
+       exit -1
+    fi
+}
+
 if [ $# -eq 0 ]; then
     error "Please specify target. Use -h option for help."
     exit -1
@@ -109,6 +148,10 @@ EXECUTABLE="ddos2"
 declare -a SOURCES=("network" "commons" "array" "hashtable" "message" "module" "arguments" "main")
 declare -a MODULES=("mod_a")
 
+target_check(){
+   require_command $CC
+   require_command $LD
+}
 target_clean(){
    info "Cleaning up."
    exec "rm -rf ${OBJ_DIR}"
@@ -130,8 +173,9 @@ target_library-debug(){
 }
 
 target_debug(){
+   target_check
    CC="gcc-9"
-   
+   require_command $CC
    info "Building debug."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR

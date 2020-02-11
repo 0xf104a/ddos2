@@ -32,7 +32,7 @@ bool udp_set_timeout(struct timeval tv){
     return true;
 }
      
-bool udp_sendto(int sock, char* target,int port, void* payload,uint64_t size, uint32_t chunksize){
+bool udp_sendto(int sock, char* target,int port, void* payload,size_t size, size_t chunksize){
    struct sockaddr_in target;
    target.sin_family = AF_INET;
    target.sin_port = htons(port);

@@ -24,11 +24,12 @@ typedef struct _connection_t{
 
 typedef struct _packet_t{
     char* target;
-    char* payload;
+    void* payload;
     struct _iface_t* iface;
     size_t sz;
     connection_t* connection; //if supported
     bool open_connection; //true if requires opening new connection
+    hashtable* options;
 } packet_t;
 
 typedef struct _iface_t{

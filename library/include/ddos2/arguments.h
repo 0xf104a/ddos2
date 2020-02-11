@@ -37,14 +37,18 @@ typedef struct{
     argtype type;
     argvalue value;
     bool is_set;
+    bool is_help;
+    array_t* values;
 } argument_t;
 
 void arguments_begin(hashtable* config);
-argument_t *argument_create(char* name, char* description, argtype type, bool compulsory, argvalue _default,bool has_default_value);
+argument_t *argument_create(char* name, char* description, argtype type, bool compulsory, argvalue _default,bool has_default_value, bool is_help, bool array);
 void argument_add_compulsory(char* name, char* description, argtype type);
-void argument_add(char* name, char* description, argtype type, argvalue _default, bool has_default_value);
+void argument_add(char* name, char* description, argtype type, argvalue _default, bool has_default_value, bool is_help);
 argument_t* argument_get(char *name);
 bool argument_check(char *name);
 argvalue argument_value_get(char *name);
 void _register_argument(argument_t *argument);
+void argument_add_array(char* name, char* description,argtype type, bool compulsory);
+
 #endif /* arguments_h */
