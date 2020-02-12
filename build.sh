@@ -129,13 +129,15 @@ if [[ $1 == "-h" ]]; then
     echo "debug     Build in debug mode"
     echo "release   Build in release mode"
     echo "library   Build libddos2"
+    echo "all       Build all in release mode"
+    echo "all-debug Build all in debug mode"
     echo "clean     Remove obj/ bin/ directories."
     exit 0
 fi
 
 BASEDIR=`pwd`
 CC="gcc"
-CFLAGS="-c -Wall -I${BASEDIR}/library/libddos2"
+CFLAGS="-Wall -I${BASEDIR}/library/libddos2"
 LD="ld"
 LD_FLAGS="-ldl"
 OBJ_DIR="obj/"
@@ -145,7 +147,7 @@ MODULES_DIR="modules/"
 MODULES_BIN="bin/modules/"
 EXECUTABLE="ddos2"
 
-declare -a SOURCES=("network" "commons" "array" "hashtable" "message" "module" "arguments" "main")
+declare -a SOURCES=("message" "array" "hashtable" "commons" "network" "module" "arguments" "main")
 declare -a MODULES=("mod_a")
 
 target_check(){
@@ -183,11 +185,11 @@ target_debug(){
    leave_dir
    for file in "${SOURCES[@]}"
    do
-       exec "${CC} ${CFLAGS} -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
+       exec "${CC} -c ${CFLAGS} -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${CC} ${LD_FLAGS} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
    leave_dir
    success "Succesfully built debug."
 }
@@ -197,10 +199,9 @@ target_release(){
    require_directory $OBJ_DIR
    require_directory $BIN_DIR
    require_directory $MODULES_BIN
-   leave_dir
    for file in "${SOURCES[@]}"
    do
-       exec "${CC} ${CFLAGS} -Ofast ${file}.c -o ${OBJ_DIR}${file}.o"
+       exec "${CC} -c ${CFLAGS} -Ofast ${file}.c -o ${OBJ_DIR}${file}.o"
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
@@ -226,7 +227,6 @@ target_modules(){
 
 
 target_all(){
-   target_library
    target_release
    target_modules
 }

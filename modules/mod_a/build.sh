@@ -68,10 +68,7 @@ fi
 if [[ $1 == "-h" ]]; then
     echo "Usage:"$0" <-h> [all|debug|release|clean|library]"
     echo "-h        Display this help message and exit."
-    echo "debug     Build in debug mode"
-    echo "release   Build in release mode"
-    echo "library   Build libddos2"
-    echo "clean     Remove obj/ bin/ directories."
+    echo "all       Builds mod_a"
     exit 0
 fi
 
@@ -83,12 +80,12 @@ LD_FLAGS="-ldl"
 OBJ_DIR="../../obj/"
 BIN_DIR="../../bin/modules/"
 LIB_DIR="../../lib/"
-EXECUTABLE="mod_tcp.so"
+EXECUTABLE="mod_a.so"
 
 declare -a SOURCES=("mod_a")
 
 target_all(){
-    info "Building mod_tcp."
+    info "Building mod_a."
     require_directory $OBJ_DIR
     require_directory $BIN_DIR
     require_directory $LIB_DIR
@@ -100,7 +97,7 @@ target_all(){
     objects=$(printf " %s.o" "${SOURCES[@]}")
     exec "${CC} -shared -L${BASEDIR}/${LIB_DIR} -lddos2 -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE}"
     leave_dir
-    success "Succesfully built mod_tcp."
+    success "Succesfully built mod_a."
 }
 
 if [[ `type -t "target_${1}"` == "function" ]]; then
