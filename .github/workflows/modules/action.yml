@@ -1,0 +1,6 @@
+name: "Build library in docker"
+description: "Builds modules using Dockerfile"
+
+runs: 
+  using: 'docker'
+  image: 'Dockerfile'
