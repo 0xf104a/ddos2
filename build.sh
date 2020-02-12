@@ -143,7 +143,7 @@ target_debug(){
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${CC} ${LD_FLAGS} -lasan -lubsan -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
    leave_dir
    success "Succesfully built debug."
 }
