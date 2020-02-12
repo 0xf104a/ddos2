@@ -213,6 +213,7 @@ target_release(){
 target_modules(){
    target_library
    info "Building modules."
+   require_directory $BIN_DIR
    require_directory $MODULES_BIN
    for module in "${MODULES[@]}"
    do
