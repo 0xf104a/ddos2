@@ -9,5 +9,7 @@ typedef struct{
     time_t open_time;
 } udp_descriptor_t;
 
+connection_t* udp_connection_open(char* target);
+bool udp_packet_send(packet_t* packet);
 
 #endif

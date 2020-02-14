@@ -131,3 +131,16 @@ packet_t* packet_receive(connection_t* connection){
     
     return connection->iface->packet_receive(connection);
 }
+void network_print_ifaces(void){
+    printf("Currently available network interfaces:");
+    size_t i=0;
+    for(;i<network_ifaces->values->sz;++i){
+        iface_t* it=(iface_t*)network_ifaces->values->base[i];
+        if(i==network_ifaces->values->sz-1){
+            printf("%s\n",it->name);
+            continue;
+        }else{
+            printf("%s,",it->name);
+        }
+    }
+}
