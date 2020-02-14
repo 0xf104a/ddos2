@@ -148,7 +148,7 @@ MODULES_BIN="bin/modules/"
 EXECUTABLE="ddos2"
 
 declare -a SOURCES=("message" "array" "hashtable" "commons" "network" "module" "arguments" "main")
-declare -a MODULES=("mod_a")
+declare -a MODULES=("mod_a" "mod_udp")
 
 target_check(){
    require_command $CC

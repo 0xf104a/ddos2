@@ -83,12 +83,12 @@ LD_FLAGS="-ldl"
 OBJ_DIR="../../obj/"
 BIN_DIR="../../bin/modules/"
 LIB_DIR="../../lib/"
-EXECUTABLE="mod_tcp.so"
+EXECUTABLE="mod_udp.so"
 
-declare -a SOURCES=("mod_udp")
+declare -a SOURCES=("util" "socket" "interface" "mod_udp")
 
 target_all(){
-    info "Building mod_tcp."
+    info "Building mod_udp."
     require_directory $OBJ_DIR
     require_directory $BIN_DIR
     require_directory $LIB_DIR
@@ -98,9 +98,9 @@ target_all(){
     done
     change_dir $OBJ_DIR
     objects=$(printf " %s.o" "${SOURCES[@]}")
-    exec "${CC} -shared -L${BASEDIR}/${LIB_DIR} -lddos2 -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE}"
+    exec "${CC} -shared -L${BASEDIR}/${LIB_DIR} -lddos2 -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
     leave_dir
-    success "Succesfully built mod_tcp."
+    success "Succesfully built mod_udp."
 }
 
 if [[ `type -t "target_${1}"` == "function" ]]; then

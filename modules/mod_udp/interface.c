@@ -14,15 +14,15 @@
          packet target should be specified in it's options.
 */
 
-connection_t* connection_open(char* target){
+connection_t* udp_connection_open(char* target){
     /* Params: target – stub: pass NULL */
-    udp_descriptor_t* conn=(upd_connection_t*)malloc(sizeof(udp_descriptor_t));
+    udp_descriptor_t* conn=(udp_descriptor_t*)malloc(sizeof(udp_descriptor_t));
     conn->fd=udp_socket();
     if(!conn->fd){
        free(conn);
        return NULL;
     }
-    conn->time=time(NULL);
+    conn->open_time=time(NULL);
     /* Create interface structure */
     connection_t* connection=(connection_t*)malloc(sizeof(connection_t));
     connection->target=NULL;
@@ -31,7 +31,7 @@ connection_t* connection_open(char* target){
     return connection;
 }
 
-bool packet_send(packet_t* packet){
+bool udp_packet_send(packet_t* packet){
     if(!packet->options){
        error("Programming error: %s: bad argrument: packet->options should not be NULL![%s:%d]",__FUNCTION__,__FILE__,__LINE__);
        return false;
@@ -48,7 +48,7 @@ bool packet_send(packet_t* packet){
      int port=atoi(strtok(NULL,":"));
      char* ip=hostname2ip(host);
      uint64_t chunksize=1200;//FIXME: set chunksize from options/arguments.
-     return udp_sendto(((udp_descriptor_t*)packet->connection->descriptor)->fd, port, packet->payload, packet->sz, chunksize);
+     return udp_sendto(((udp_descriptor_t*)packet->connection->descriptor)->fd,host, port, packet->payload, packet->sz, chunksize);
 }
 
 

@@ -1,5 +1,13 @@
 #include "util.h"
 
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <ddos2/message.h>
+
 char* hostname2ip(const char* hostname)
 {
     char* ip = (char*)malloc(16*sizeof(char));//255.255.255.255\0

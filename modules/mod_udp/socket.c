@@ -1,5 +1,6 @@
 #include "socket.h"
 
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/udp.h>
@@ -10,6 +11,7 @@
 #include <arpa/inet.h> 
 #include <netinet/in.h> 
 #include <time.h>
+#include <string.h>
 
 #include <ddos2/message.h>
 #include <ddos2/network.h>
@@ -24,7 +26,7 @@ int udp_socket(void){
    return sock;
 }
 
-bool udp_set_timeout(struct timeval tv){
+bool udp_set_timeout(int sock,struct timeval tv){
     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
             error("setsocopt: %s(%d)[%s:%d]",__FILE__,__LINE__);
             return false;
@@ -32,7 +34,11 @@ bool udp_set_timeout(struct timeval tv){
     return true;
 }
      
-bool udp_sendto(int sock, char* target,int port, void* payload,size_t size, size_t chunksize){
+bool udp_sendto(int sock, char* _target,int port, void* payload,size_t size, size_t chunksize){
+   char* host=hostname2ip(_target);
+   if(!host){
+      return false;
+   }
    struct sockaddr_in target;
    target.sin_family = AF_INET;
    target.sin_port = htons(port);
