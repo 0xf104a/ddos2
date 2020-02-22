@@ -93,7 +93,7 @@ check_equal(){
 require_equal(){
     check_equal $1 $2
     local r=$?
-    if [ $r -eq -1 ]; then
+    if [ ! $r -eq 0 ]; then
        error "Files ${1} and ${2} are not equal."
        exit -1
     fi
@@ -112,7 +112,7 @@ check_command(){
 require_command(){
     check_command $1
     local r=$?
-    if [ $r -eq -1 ]; then
+    if [ ! $r -eq 0 ]; then
        error "Command ${1} is not avail."
        exit -1
     fi

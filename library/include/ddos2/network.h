@@ -55,4 +55,6 @@ connection_t* connection_open(iface_t* iface, char* target);
  bool connection_close(connection_t* connection);
 bool packet_send(iface_t* iface, packet_t* packet);
 packet_t* packet_receive(connection_t* connection);
+bool check_iface(char* name);
+iface_t* get_iface(char* name);
 #endif /* network_h */

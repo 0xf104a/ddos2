@@ -120,3 +120,15 @@ packet_t* packet_receive(connection_t* connection){
     
     return connection->iface->packet_receive(connection);
 }
+
+bool check_iface(char* name){ //Checks interface is available
+    return hashtbl_check_key(network_ifaces,name);
+}
+
+iface_t* get_iface(char* name){ //Returns interface by name 
+    return (iface_t*)hashtbl_get(network_ifaces,name);
+}
+
+array_t* list_ifaces(void){
+    return network_ifaces->values;
+}

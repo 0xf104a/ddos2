@@ -82,11 +82,12 @@ BIN_DIR="../../bin/modules/"
 LIB_DIR="../../lib/"
 EXECUTABLE="mod_a.so"
 
-declare -a SOURCES=("mod_a")
+declare -a SOURCES=("mod_a" "test" "tests/udp")
 
 target_all(){
     info "Building mod_a."
     require_directory $OBJ_DIR
+    require_directory "${OBJ_DIR}/tests"
     require_directory $BIN_DIR
     require_directory $LIB_DIR
     for file in "${SOURCES[@]}"
