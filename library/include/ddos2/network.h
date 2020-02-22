@@ -52,9 +52,11 @@ void network_set_stats(bool stat);
 iface_t* network_iface(char* name);
 void register_iface(iface_t* iface);
 connection_t* connection_open(iface_t* iface, char* target);
- bool connection_close(connection_t* connection);
+bool connection_close(connection_t* connection);
 bool packet_send(iface_t* iface, packet_t* packet);
 packet_t* packet_receive(connection_t* connection);
 bool check_iface(char* name);
 iface_t* get_iface(char* name);
+array_t* list_ifaces(void);
+
 #endif /* network_h */
