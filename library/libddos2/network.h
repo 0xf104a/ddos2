@@ -58,5 +58,6 @@ packet_t* packet_receive(connection_t* connection);
 bool check_iface(char* name);
 iface_t* get_iface(char* name);
 array_t* list_ifaces(void);
+packet_t* packet_create(char* target, void* payload,size_t sz);
 
 #endif /* network_h */

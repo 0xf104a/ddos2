@@ -36,14 +36,11 @@ bool udp_packet_send(packet_t* packet){
        error("Programming error: %s: bad argrument: packet->options should not be NULL![%s:%d]",__FUNCTION__,__FILE__,__LINE__);
        return false;
      }
-     if(!hashtbl_check_key(packet->options,"target")){
-        error("Programming error: %s: bad argrument: packet passed has not enough option!Option 'target' is required.[%s:%d]",__FUNCTION__,__FILE__,__LINE__);
-        return false;
-     }
-     char* target=(char*)hashtbl_get(packet->options,"target");
-     if(!target){
+     if(!packet->target){
         error("Programming error: %s: packet has bad option: target==NULL![%s:%d]",__FUNCTION__,__FILE__,__LINE__);
      }
+     char* target=(char*)malloc(sizeof(char)*(strlen(packet->target)+1));
+     strcpy(target,packet->target);
      char* host=strtok(target,":");
      int port=atoi(strtok(NULL,":"));
      char* ip=hostname2ip(host);

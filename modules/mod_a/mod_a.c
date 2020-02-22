@@ -19,6 +19,7 @@ char* mod_description="Contains basic tests for modules.";
 module_config_t* mod_on_load(program_config_t* config){   
    ddos2_begin(config);
    argument_add("--test","Test program features(mod_a)",ARG_BOOL,argbool(false),true,false);
+   udp_tests_prepare();
    return ddos2_modconfig(mod_name,mod_author,mod_description,mod_version);
 }
 
