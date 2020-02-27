@@ -19,10 +19,10 @@ module_config_t* mod_on_load(program_config_t* config){
    iface_t* iface=network_iface("udp");
    iface->connection_open=&udp_connection_open;
    iface->packet_send=&udp_packet_send;
-   iface->connection_close=NULL;
+   iface->connection_close=&udp_connection_close;
    iface->packet_receive=NULL;
    register_iface(iface);
-   debug("Registered interface");
+   debug("Registered UDP interface");
    return ddos2_modconfig(mod_name,mod_author,mod_description,mod_version);
 }
 

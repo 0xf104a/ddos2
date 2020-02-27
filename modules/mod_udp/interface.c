@@ -52,4 +52,10 @@ bool udp_packet_send(packet_t* packet){
 }
 
 
+bool udp_connection_close(connection_t* connection){
+    bool stat=udp_close(((udp_descriptor_t*)connection->descriptor)->fd);
+    free(connection->descriptor);
+    free(connection);
+    return stat;
+}
 

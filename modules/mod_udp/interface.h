@@ -11,5 +11,6 @@ typedef struct{
 
 connection_t* udp_connection_open(char* target);
 bool udp_packet_send(packet_t* packet);
+bool udp_connection_close(connection_t* connection);
 
 #endif

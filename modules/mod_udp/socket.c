@@ -12,6 +12,7 @@
 #include <netinet/in.h> 
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <ddos2/message.h>
 #include <ddos2/network.h>
@@ -56,4 +57,12 @@ bool udp_sendto(int sock, char* _target,int port, void* payload,size_t size, siz
    return true;
 }
 
-
+bool udp_close(int sock){
+    if(sock<0){
+       error("Failed to close socket: non-opened socket.");
+       return false;
+    }
+    close(sock);
+    return true;
+}
+    
