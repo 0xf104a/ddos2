@@ -45,7 +45,11 @@ bool udp_packet_send(packet_t* packet){
      int port=atoi(strtok(NULL,":"));
      char* ip=hostname2ip(host);
      uint64_t chunksize=1200;//FIXME: set chunksize from options/arguments.
-     return udp_sendto(((udp_descriptor_t*)packet->connection->descriptor)->fd,host, port, packet->payload, packet->sz, chunksize);
+     bool stat=udp_sendto(((udp_descriptor_t*)packet->connection->descriptor)->fd,host, port, packet->payload, packet->sz, chunksize);
+     free(ip);
+     free(target);
+     return stat;
 }
+
 
 
