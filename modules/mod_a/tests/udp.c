@@ -65,5 +65,5 @@ void udp_tests_register(void){
    test_add("udp/open",&test_open);
    test_add("udp/send",&test_send);
    test_add("udp/long_send",&test_long_send);
-    test_add("udp/close",&test_close);
+   test_add("udp/close",&test_close);
 }

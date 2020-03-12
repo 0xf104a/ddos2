@@ -16,6 +16,7 @@ char* mod_description="Implements UDP interface.";
 module_config_t* mod_on_load(program_config_t* config){
    ddos2_begin(config);
    debug("Initialized mod_udp.");
+   /* Register interface */
    iface_t* iface=network_iface("udp");
    iface->connection_open=&udp_connection_open;
    iface->packet_send=&udp_packet_send;
@@ -23,6 +24,10 @@ module_config_t* mod_on_load(program_config_t* config){
    iface->packet_receive=NULL;
    register_iface(iface);
    debug("Registered UDP interface");
+   /* Add arguments */
+   argument_add("--udp-timeout","Timeout for UDP interface", ARG_INT, argint(1000), true, false);
+   argument_add("--udp-chunksize","Set chunksize for big UDP datagrams", ARG_INT,argint(1400),true,false);
+
    return ddos2_modconfig(mod_name,mod_author,mod_description,mod_version);
 }
 
