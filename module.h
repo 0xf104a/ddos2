@@ -42,7 +42,9 @@
     printf(SECTION); \
     printf("%s\n",ENDC); \
     printf("%s\n",module->PARAM_NAME);
+
 /* Structures */
+
 typedef struct{
     char* name;
     char* author;
@@ -65,8 +67,9 @@ typedef struct{
     char* description;
     char* version;
     char* filename;
-    module_config_t* (*mod_pull_config)(program_config_t* config);
+    module_config_t* (*mod_on_load)(program_config_t* config);
     void (*mod_on_init)(void);
+    void (*mod_on_run)(void);
 } module_t;
 
 /* Function prototypes */
@@ -77,5 +80,6 @@ void module_summary(module_t* module);
 void modules_load(char* path);
 void modules_list(void);
 module_t* module_get(char* name);
+void modules_on_init(void);
 
 #endif /* module_h */

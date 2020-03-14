@@ -11,7 +11,7 @@
 uint8_t log_level=0b1111111;
 
 void debug(const char * format, ...){
-    if(LVL_INFO&log_level){
+    if(LVL_DEBUG&log_level){
         PRINT_FORMATTED(INFO);
     }
 }
@@ -55,7 +55,7 @@ void status(const char* format, ...){
 }
 
 void debug_warn(const char* format, ...){
-    if(LVL_STATUS&log_level){
+    if(LVL_DEBUG&log_level){
         PRINT_FORMATTED(WARN);
     }
 }

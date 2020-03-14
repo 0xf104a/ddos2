@@ -9,6 +9,7 @@
 #include "network.h"
 #include "arguments.h"
 #include "message.h"
+#include "hashtable.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -57,6 +58,11 @@ connection_t* connection_open(iface_t* iface, char* target){
         return NULL;
     }
     connection_t* connection=iface->connection_open(target);
+    if(!connection){
+       debug_warn("NULL as connection was returned!");
+       return NULL;
+     } 
+    connection->iface=iface;
     return connection;
 }
 
@@ -115,3 +121,28 @@ packet_t* packet_receive(connection_t* connection){
     
     return connection->iface->packet_receive(connection);
 }
+
+packet_t* packet_create(char* target, void* payload,size_t sz){
+       packet_t* packet=(packet_t*)malloc(sizeof(packet_t));
+       packet->target=target;//No copying for optimization
+       packet->payload=payload;
+       packet->sz=sz;
+       packet->options=hashtbl_create(1);//Also for optimization
+       packet->open_connection=false;
+       packet->connection=NULL;
+       return packet;
+}
+
+bool check_iface(char* name){ //Checks interface is available
+    return hashtbl_check_key(network_ifaces,name);
+}
+
+iface_t* get_iface(char* name){ //Returns interface by name 
+    return (iface_t*)hashtbl_get(network_ifaces,name);
+}
+
+array_t* list_ifaces(void){
+    return network_ifaces->values;
+}
+
+

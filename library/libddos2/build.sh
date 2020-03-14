@@ -68,6 +68,45 @@ leave_dir(){
     cd $BASEDIR
 }
 
+check_equal(){
+    printf "${bold}${blue}[*]:${normal}Checking equality: ${1} and ${2}..."
+    if ! cmp $1 $2 >/dev/null 2>&1
+    then
+      printf "${bold}${red}FAILED${normal}\n"
+      return -1
+    fi
+    printf "${bold}${green}OK${normal}\n"
+    return 0
+}
+
+require_equal(){
+    check_equal $1 $2
+    local r=$?
+    if [ ! $r -eq 0 ]; then
+       error "Files ${1} and ${2} are not equal."
+       exit -1
+    fi
+}
+
+check_command(){
+    printf "${bold}${blue}[*]:${normal}Checking that ${1} avail..."
+    if ! [ -x "$(command -v ${1})" ]; then
+      printf "${bold}${red}FAILED${normal}\n"
+      return -1
+    fi
+    printf "${bold}${green}OK${normal}\n"
+    return 0
+}
+
+require_command(){
+    check_command $1
+    local r=$?
+    if [ $r -eq -1 ]; then
+       error "Command ${1} is not avail."
+       exit -1
+    fi
+}
+
 if [ $# -eq 0 ]; then
     error "Please specify target. Use -h option for help."
     exit -1
@@ -78,7 +117,7 @@ if [[ $1 == "-h" ]]; then
     echo "-h        Display this help message and exit."
     echo "debug     Build in debug mode"
     echo "release   Build in release mode"
-    echo "clean     Remove obj/ bin/ directories."
+    echo "check     Check that build is possible"
     exit 0
 fi
 
@@ -94,9 +133,20 @@ OUTPUT="libddos2.a"
 
 declare -a SOURCES=("network" "hashtable" "array" "arguments" "ddos2" "message")
 
-
+target_check(){
+  info "Checking libddos2"
+  info "Checking headers"
+  for file in "${SOURCES[@]}"
+  do
+     require_equal "${file}.h" "../include/ddos2/${file}.h"
+  done
+  require_command $CC
+  require_command $LD
+}
 target_debug(){
    CC="gcc-9"
+   
+   require_command $CC
    
    info "Building libddos2 in debug mode."
    require_directory $OBJ_DIR
@@ -114,6 +164,8 @@ target_debug(){
 }
 
 target_release(){
+   target_check
+   
    info "Building libddos2."
    require_directory $OBJ_DIR
    require_directory $BIN_DIR

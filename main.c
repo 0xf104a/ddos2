@@ -11,21 +11,20 @@
 #include "arguments.h"
 #include "commons.h"
 #include "module.h"
+#include "network.h"
 #include "config.h"
 
 int main(int argc, const char * argv[]) {
-#pragma mark Logo
-    
-    printf(ORANGE);
-    printf(BOLD);
     printf(BLINK);
+    printf(WARNING);
+    printf(BOLD);
     printf(" (    (        )  (\n");
     printf(" )\\ ) )\\ )  ( /(  )\\ )      )\n");
     printf("(()/((()/(  )\\())(()/(   ( /(\n");
     printf("/(_))/(_))((_)\\  /(_))  )(_))\n");
     printf("(_))_(_))_   ((_)(_))   ((_)\n");
     printf(ENDC);
-    printf(ORANGE);
+    printf(WARNING);
     printf(BOLD);
     printf("|   \\|   \\ / _ \\/ __|  |_  )\n");
     printf("| |) | |) | (_) \\__ \\   / /\n");
@@ -38,32 +37,31 @@ int main(int argc, const char * argv[]) {
     set_loglevel(LVL_RELEASE);
 #endif
     
-#pragma mark Intializtion
-    
-    info("Built with GCC %s at %s %s",__VERSION__,__DATE__,__TIME__);
+    info("Built with %s %s at %s %s",__COMPILER,__VERSION__,__DATE__,__TIME__);
     ch_local_dir(argv[0]);
     
     arguments_begin();
     modules_begin();
+    network_begin();
     modules_configure(VERSION);
     modules_load(MODULES_DIR);
-    
-#pragma mark Arguments
     
     argument_add_compulsory("--module", "Module to run.", ARG_STR);
     argument_add("--ls-modules","List all modules loaded.",ARG_BOOL,argbool(false),true,true);
     argument_add("--mod-summary","Show extended information about module.",ARG_BOOL,argbool(false),true,false);
-    argument_add("--ls-ifaces", "List network interfaces.", ARG_BOOL,argbool(false),true,true);//TODO: This is, so called help argument. Should set that after implementing it in arguments.c
+    argument_add("--ls-ifaces", "List network interfaces.", ARG_BOOL,argbool(false),true,true);//DONE: This is, so called help argument. Should set that after implementing it in arguments.c
     argument_add("--net-no-stats", "Disable packets and byte counting for interfaces", ARG_BOOL, argbool(false),true,false);
     
-#pragma mark Parse arguments
     
     arguments_parse(argc, argv, 1);
     
-#pragma mark Handle arguments
     
     if(argument_value_get_s("--ls-modules", ARG_BOOL).boolValue){
         modules_list();
+        return 0;
+    }
+    if(argument_value_get_s("--ls-ifaces", ARG_BOOL).boolValue){
+        network_print_ifaces();
         return 0;
     }
     if(argument_value_get_s("--mod-summary", ARG_BOOL).boolValue){
@@ -72,5 +70,11 @@ int main(int argc, const char * argv[]) {
         module_t* module=module_get(mod_name);
         module_summary(module);
     }
+    
+    modules_on_init();
+    
+    module_t* mod=module_get(argument_value_get_s("--module", ARG_STR).strValue);
+    mod->mod_on_run(); //Run selected module
+    
     return 0;
 }

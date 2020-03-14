@@ -30,6 +30,7 @@ typedef struct _packet_t{
     size_t sz;
     connection_t* connection; //if supported
     bool open_connection; //true if requires opening new connection
+    hashtable* options;
 } packet_t;
 
 typedef struct _iface_t{
@@ -41,13 +42,20 @@ typedef struct _iface_t{
     connection_t* (*connection_open)(char*);
     bool (*connection_close)(connection_t*);
     /*TODO:
-    connection_t* connection_wait(iface_t*);
-    packet_t* packet_listen(iface_t*);//Usefule with UDP
+    connection_t* connection_wait(iface_t*,int);
+    packet_t* packet_listen(iface_t*);//Useful with UDP
      */
 } iface_t;
 
 extern hashtable* network_ifaces;
 extern bool network_statistics;
+
+/*
+  !!!WARNING!!! While implementing your network module you 
+                DO NOT NEED to implement any of functions
+                below. You should implement functions which
+                are decalred in structure iface_t
+*/
 
 void network_begin(void);
 void network_set_stats(bool stat);
@@ -57,5 +65,9 @@ connection_t* connection_open(iface_t* iface, char* target);
 bool connection_close(connection_t* connection);
 bool packet_send(iface_t* iface, packet_t* packet);
 packet_t* packet_receive(connection_t* connection);
-
+void network_print_ifaces(void);
+/*
+TODO:
+packet_t* packet_create(...);
+*/
 #endif /* network_h */

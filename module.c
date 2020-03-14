@@ -52,13 +52,14 @@ module_t* module_load(char* path){
         return NULL;
     }
     /*Load functions*/
-    _MOD_IMPORT_FUNCTION("mod_config_pull", mod_pull_config);
+    _MOD_IMPORT_FUNCTION("mod_on_load", mod_on_load);
     _MOD_IMPORT_FUNCTION("mod_on_init", mod_on_init);
+    _MOD_IMPORT_FUNCTION("mod_on_run", mod_on_run);
 
     /*Configure*/
-    module_config_t* config=(module->mod_pull_config)(p_config);
+    module_config_t* config=(module->mod_on_load)(p_config);
     if(!config){
-        error("Programming error: config==NULL!Check that your module work properly.Called function: mod_config_pull(). File: %s.(%s:%d)",path,__FILE__,__LINE__);
+        error("Programming error: config==NULL!Check that your module work properly.Called function: mod_on_load(). File: %s.(%s:%d)",path,__FILE__,__LINE__);
         return NULL;
     }
     /* Set params */
@@ -72,7 +73,7 @@ module_t* module_load(char* path){
 
     debug("Loaded: %s",path);
     
-    /* Free config since it used only on module initialization */
+    /* Free config since it used only in module initialization */
     free(config->author);
     free(config->description);
     free(config->name);
@@ -139,5 +140,13 @@ module_t* module_get(char* name){
         error("Programming error: module %s was not loaded!(%s:%d)",__FILE__,__LINE__);
     }
     return hashtbl_get(modules, name);
+}
+
+void modules_on_init(void){
+    int i=0;
+    for(;i<modules->sz;++i){
+        module_t* module = (module_t*)modules->values->base[i];
+        module->mod_on_init();
+    }
 }
 
