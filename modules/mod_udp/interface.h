@@ -3,11 +3,14 @@
 
 #include <ddos2/network.h>
 #include <time.h>
+#include <stdint.h>
 
 typedef struct{
     int fd;
     time_t open_time;
 } udp_descriptor_t;
+
+extern int64_t chunksize;
 
 connection_t* udp_connection_open(char* target);
 bool udp_packet_send(packet_t* packet);

@@ -185,7 +185,7 @@ target_debug(){
    leave_dir
    for file in "${SOURCES[@]}"
    do
-       exec "${CC} -c ${CFLAGS} -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
+       exec "${CC} -c ${CFLAGS} -fsanitize=leak -fsanitize=address -fsanitize=undefined ${file}.c -o ${OBJ_DIR}${file}.o"
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")

@@ -28,6 +28,7 @@ void test_all(void){
     for(;i<tests->sz;++i){
         test_t* test=(test_t*)tests->base[i];
         printf("Testing %s...",test->name);
+        fflush(stdout);
         if(test->perform()){
            printf("%s%sOK%s\n",BOLD,OKGREEN,ENDC);
         }else{

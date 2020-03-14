@@ -14,6 +14,8 @@
          packet target should be specified in it's options.
 */
 
+int64_t chunksize;
+
 connection_t* udp_connection_open(char* target){
     /* Params: target – stub: pass NULL */
     udp_descriptor_t* conn=(udp_descriptor_t*)malloc(sizeof(udp_descriptor_t));
@@ -44,7 +46,6 @@ bool udp_packet_send(packet_t* packet){
      char* host=strtok(target,":");
      int port=atoi(strtok(NULL,":"));
      char* ip=hostname2ip(host);
-     uint64_t chunksize=1200;//FIXME: set chunksize from options/arguments.
      bool stat=udp_sendto(((udp_descriptor_t*)packet->connection->descriptor)->fd,host, port, packet->payload, packet->sz, chunksize);
      free(ip);
      free(target);
@@ -58,4 +59,5 @@ bool udp_connection_close(connection_t* connection){
     free(connection);
     return stat;
 }
+
 

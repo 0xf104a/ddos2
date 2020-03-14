@@ -23,7 +23,7 @@ module_config_t* mod_on_load(program_config_t* config){
    return ddos2_modconfig(mod_name,mod_author,mod_description,mod_version);
 }
 
-void mod_on_init(void){
+void mod_on_run(void){
    if(!(argument_value_get("--test").boolValue)){
       return;
    }
@@ -35,3 +35,6 @@ void mod_on_init(void){
    test_all();
 }
 
+void mod_on_init(void){//Stub
+
+}

@@ -13,6 +13,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include <ddos2/message.h>
 #include <ddos2/network.h>
@@ -36,6 +37,7 @@ bool udp_set_timeout(int sock,struct timeval tv){
 }
      
 bool udp_sendto(int sock, char* _target,int port, void* payload,size_t size, size_t chunksize){
+   assert(chunksize>0);
    char* host=hostname2ip(_target);
    if(!host){
       return false;

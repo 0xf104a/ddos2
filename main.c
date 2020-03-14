@@ -15,7 +15,6 @@
 #include "config.h"
 
 int main(int argc, const char * argv[]) {
-#pragma mark Logo
     printf(BLINK);
     printf(WARNING);
     printf(BOLD);
@@ -38,8 +37,6 @@ int main(int argc, const char * argv[]) {
     set_loglevel(LVL_RELEASE);
 #endif
     
-#pragma mark Intializtion
-    
     info("Built with %s %s at %s %s",__COMPILER,__VERSION__,__DATE__,__TIME__);
     ch_local_dir(argv[0]);
     
@@ -49,19 +46,15 @@ int main(int argc, const char * argv[]) {
     modules_configure(VERSION);
     modules_load(MODULES_DIR);
     
-#pragma mark Arguments
-    
     argument_add_compulsory("--module", "Module to run.", ARG_STR);
     argument_add("--ls-modules","List all modules loaded.",ARG_BOOL,argbool(false),true,true);
     argument_add("--mod-summary","Show extended information about module.",ARG_BOOL,argbool(false),true,false);
     argument_add("--ls-ifaces", "List network interfaces.", ARG_BOOL,argbool(false),true,true);//DONE: This is, so called help argument. Should set that after implementing it in arguments.c
     argument_add("--net-no-stats", "Disable packets and byte counting for interfaces", ARG_BOOL, argbool(false),true,false);
     
-#pragma mark Parse arguments
     
     arguments_parse(argc, argv, 1);
     
-#pragma mark Handle arguments
     
     if(argument_value_get_s("--ls-modules", ARG_BOOL).boolValue){
         modules_list();
@@ -78,9 +71,10 @@ int main(int argc, const char * argv[]) {
         module_summary(module);
     }
     
-#pragma mark Initialize modules
-    
     modules_on_init();
+    
+    module_t* mod=module_get(argument_value_get_s("--module", ARG_STR).strValue);
+    mod->mod_on_run(); //Run selected module
     
     return 0;
 }

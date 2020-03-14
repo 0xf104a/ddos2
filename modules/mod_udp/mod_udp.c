@@ -32,6 +32,10 @@ module_config_t* mod_on_load(program_config_t* config){
 }
 
 void mod_on_init(void){
-   printf("mod_on_init() called.\n");
+    chunksize=argument_value_get("--udp-chunksize").intValue;
+}
+
+void mod_on_run(void){ //Stub
+
 }
 

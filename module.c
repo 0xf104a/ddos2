@@ -54,6 +54,7 @@ module_t* module_load(char* path){
     /*Load functions*/
     _MOD_IMPORT_FUNCTION("mod_on_load", mod_on_load);
     _MOD_IMPORT_FUNCTION("mod_on_init", mod_on_init);
+    _MOD_IMPORT_FUNCTION("mod_on_run", mod_on_run);
 
     /*Configure*/
     module_config_t* config=(module->mod_on_load)(p_config);
@@ -72,7 +73,7 @@ module_t* module_load(char* path){
 
     debug("Loaded: %s",path);
     
-    /* Free config since it used only on module initialization */
+    /* Free config since it used only in module initialization */
     free(config->author);
     free(config->description);
     free(config->name);
