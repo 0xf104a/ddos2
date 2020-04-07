@@ -11,9 +11,7 @@ typedef struct{
     array_t* cached; 
 } cache_t;
 
-extern cache_t* cache;
-
-void cache_init(void);
+void cache_begin(cache_t* _cache);
 size_t cache_put(void* obj);
 void* cache_get(size_t id);
 #endif

@@ -131,7 +131,7 @@ BIN_DIR="../../lib/"
 
 OUTPUT="libddos2.a"
 
-declare -a SOURCES=("network" "hashtable" "array" "arguments" "ddos2" "message")
+declare -a SOURCES=("network" "hashtable" "array" "cache" "arguments" "ddos2" "message")
 
 target_check(){
   info "Checking libddos2"

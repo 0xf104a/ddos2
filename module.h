@@ -11,6 +11,7 @@
 
 #include "array.h"
 #include "hashtable.h"
+#include "cache.h"
 
 #include <stdint.h>
 
@@ -58,6 +59,7 @@ typedef struct{
     bool net_stats;
     const char* version;
     uint8_t* log_byte;
+    cache_t* cache;
 } program_config_t;
 
 typedef struct{
