@@ -2,6 +2,7 @@
 #include "message.h"
 #include "arguments.h"
 #include "network.h"
+#include "cache.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -10,6 +11,7 @@ void ddos2_begin(program_config_t* config){
     arguments_begin(config->arguments);
     message_begin(config->log_byte);
     network_begin(config->network_ifaces, config->net_stats);
+    cache_begin(config->cache);
 }
 
 module_config_t* ddos2_modconfig(char* name, char* author, char* description,char* version){

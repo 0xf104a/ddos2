@@ -34,6 +34,7 @@ void modules_configure(const char* version){
     p_config->version=version;
     p_config->network_ifaces=network_ifaces;
     p_config->net_stats=network_statistics;
+    p_config->cache=cache;
 }
 
 void module_register_arguments(array_t* _arguments){
