@@ -41,10 +41,8 @@ typedef struct _iface_t{
     packet_t* (*packet_receive)(connection_t*);
     connection_t* (*connection_open)(char*);
     bool (*connection_close)(connection_t*);
-    /*TODO:
-    connection_t* connection_wait(iface_t*,int);
-    packet_t* packet_listen(iface_t*);//Useful with UDP
-     */
+    connection_t* (*connection_wait)(struct _iface_t*,int);//TCP-like listen
+    packet_t* (*packet_listen)(struct _iface_t*);//UDP-like listen
 } iface_t;
 
 extern hashtable* network_ifaces;
@@ -66,6 +64,8 @@ bool connection_close(connection_t* connection);
 bool packet_send(iface_t* iface, packet_t* packet);
 packet_t* packet_receive(connection_t* connection);
 void network_print_ifaces(void);
+packet_t* packet_listen(iface_t* iface);
+connection_t* connection_wait(iface_t* iface, int port);
 /*
 TODO:
 packet_t* packet_create(...);
