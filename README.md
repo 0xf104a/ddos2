@@ -1,5 +1,7 @@
 # ddos2
 ddos2 – utility for denial of service attacks. **WORK IN PROGRESS**
+![Test(Ubuntu x86_64)](https://github.com/Andrewerr/ddos2/workflows/Test(Ubuntu%20x86_64)/badge.svg)
+
 # Building
 Currently debug builds are supported only on the systems with `gcc-9` present.<br>
 To build program in release mode:<br>
