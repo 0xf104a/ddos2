@@ -98,7 +98,7 @@ target_all(){
     done
     change_dir $OBJ_DIR
     objects=$(printf " %s.o" "${SOURCES[@]}")
-    exec "${LD} ${LD_FLAGS} -shared -L${BASEDIR}/${LIB_DIR} -lddos2 -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+    exec "${LD} ${LD_FLAGS} -shared -L${BASEDIR}/${LIB_DIR} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects} -lddos2"
     leave_dir
     success "Succesfully built mod_udp."
 }
