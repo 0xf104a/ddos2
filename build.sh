@@ -237,6 +237,12 @@ target_all-debug(){
    target_debug
    target_modules
 }
+
+target_test(){
+   target_all
+   exec "./bin/ddos2 --module mod_a --test"
+}
+
 if [[ `type -t "target_${1}"` == "function" ]]; then
      eval "target_${1}"
      success "Done."
