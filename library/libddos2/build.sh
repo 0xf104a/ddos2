@@ -101,7 +101,7 @@ check_command(){
 require_command(){
     check_command $1
     local r=$?
-    if [ $r -eq -1 ]; then
+    if [ ! $r -eq 0 ]; then
        error "Command ${1} is not avail."
        exit -1
     fi
