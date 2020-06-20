@@ -36,6 +36,6 @@ void mod_on_init(void){
 }
 
 void mod_on_run(void){ //Stub
-
+    warn("Module is not runnable.");
 }
 

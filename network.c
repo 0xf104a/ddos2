@@ -1,3 +1,4 @@
+
 //
 //  network.c
 //  ddos2
@@ -36,6 +37,8 @@ iface_t* network_iface(char* name){
     iface->connection_open=NULL;
     iface->packet_send=NULL;
     iface->packet_receive=NULL;
+    iface->connection_wait=NULL;
+    iface->packet_listen=NULL;
     return iface;
 }
 
@@ -125,12 +128,39 @@ packet_t* packet_receive(connection_t* connection){
         return NULL;
     }
     if(!connection->iface->packet_receive){
-        error("Programming error: Interface %s does not support openning connections.",connection->iface->name);
+        error("Programming error: Interface %s does not support receiving connection..",connection->iface->name);
         return NULL;
     }
     
     return connection->iface->packet_receive(connection);
 }
+
+packet_t* packet_listen(iface_t* iface){
+   if(!iface){
+         error("Programming error: %s: Bad argument: connection is NULL(%s:%d)",__FUNCTION__,__FILE__,__LINE__);
+         return NULL;
+   }
+   if(!iface->packet_listen){
+         error("Programming error: Interface %s does not support listening.",iface->name);
+         return NULL;
+   }
+   
+   return iface->packet_listen(iface);
+}
+
+connection_t* connection_wait(iface_t* iface, int port){
+   if(!iface){
+         error("Programming error: %s: Bad argument: connection is NULL(%s:%d)",__FUNCTION__,__FILE__,__LINE__);
+         return NULL;
+   }   
+   if(!iface->connection_wait){
+         error("Programming error: Interface %s does not support waiting for connection.",iface->name);
+         return NULL;
+   }   
+   
+   return iface->connection_wait(iface, port);
+}
+
 void network_print_ifaces(void){
     printf("Currently available network interfaces:");
     size_t i=0;
