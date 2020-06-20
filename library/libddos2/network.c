@@ -133,6 +133,32 @@ packet_t* packet_create(char* target, void* payload,size_t sz){
        return packet;
 }
 
+packet_t* packet_listen(iface_t* iface){
+   if(!iface){
+         error("Programming error: %s: Bad argument: connection is NULL(%s:%d)",__FUNCTION__,__FILE__,__LINE__);
+         return NULL;
+   }
+   if(!iface->packet_listen){
+         error("Programming error: Interface %s does not support listening.",iface->name);
+         return NULL;
+   }
+   
+   return iface->packet_listen(iface);
+}
+
+connection_t* connection_wait(iface_t* iface, int port){
+   if(!iface){
+         error("Programming error: %s: Bad argument: connection is NULL(%s:%d)",__FUNCTION__,__FILE__,__LINE__);
+         return NULL;
+   }   
+   if(!iface->connection_wait){
+         error("Programming error: Interface %s does not support waiting for connection.",iface->name);
+         return NULL;
+   }   
+   
+   return iface->connection_wait(iface, port);
+}
+
 bool check_iface(char* name){ //Checks interface is available
     return hashtbl_check_key(network_ifaces,name);
 }
@@ -144,5 +170,4 @@ iface_t* get_iface(char* name){ //Returns interface by name
 array_t* list_ifaces(void){
     return network_ifaces->values;
 }
-
 

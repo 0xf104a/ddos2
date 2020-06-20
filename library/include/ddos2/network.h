@@ -1,3 +1,4 @@
+
 //
 //  network.h
 //  ddos2
@@ -40,10 +41,8 @@ typedef struct _iface_t{
     packet_t* (*packet_receive)(connection_t*);
     connection_t* (*connection_open)(char*);
     bool (*connection_close)(connection_t*);
-    /*TODO:
-    connection_t* connection_wait(iface_t*);
-    packet_t* packet_listen(iface_t*);//Usefule with UDP
-     */
+    connection_t* (*connection_wait)(struct _iface_t*,int);
+    packet_t* (*packet_listen)(struct _iface_t*);
 } iface_t;
 
 //extern hashtable* network_ifaces;
@@ -59,5 +58,7 @@ bool check_iface(char* name);
 iface_t* get_iface(char* name);
 array_t* list_ifaces(void);
 packet_t* packet_create(char* target, void* payload,size_t sz);
+packet_t* packet_listen(iface_t* iface);
+connection_t* connection_wait(iface_t* iface, int port);
 
 #endif /* network_h */
