@@ -2,6 +2,7 @@
 #define DOS_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "network.h"
 
@@ -20,7 +21,7 @@ typedef struct{
 	uint32_t duration;
 } dos_status_t;
 
-void dos_simple(packet_t* packet, double speed_limit);
+void dos_simple(packet_t* packet, double speed_limit, bool show_status);
 /* 
  * Simple DoS attack in cycle
  * speed_limit -- max value for B/s(0.0 for no limit)

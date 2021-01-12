@@ -10,7 +10,7 @@ MODULES_DIR="modules/"
 MODULES_BIN="bin/modules/"
 EXECUTABLE="ddos2"
 
-declare -a SOURCES=("message" "array" "hashtable" "cache" "commons" "network" "module" "arguments" "main")
+declare -a SOURCES=("message" "util" "dos" "status" "array" "hashtable" "cache" "commons" "network" "module" "arguments" "main")
 declare -a MODULES=("mod_a" "mod_udp")
 
 cd $BASEDIR
@@ -70,7 +70,7 @@ target_release(){
    done
    change_dir $OBJ_DIR
    objects=$(printf " %s.o" "${SOURCES[@]}")
-   exec "${CC} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
+   exec "${LD} ${LD_FLAGS} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects}"
    leave_dir
    success "Succesfully built release."
 }

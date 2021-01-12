@@ -1,8 +1,11 @@
 #include "dos.h"
 #include "util.h"
 #include "network.h"
+#include "status.h"
 
-void dos_simple(packet_t* packet,double speed_limit){
+#include <stdbool.h>
+
+void dos_simple(packet_t* packet,double speed_limit, bool show_status){
 	int sleep=0;
 	if(speed_limit!=0.0){
 	   sleep=(int)((double)packet->sz/(1000.0*speed_limit));
@@ -14,4 +17,3 @@ void dos_simple(packet_t* packet,double speed_limit){
 	   packet_send(packet->iface, packet);
 	}
 }	
-

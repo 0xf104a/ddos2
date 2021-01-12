@@ -13,6 +13,7 @@
 #include "module.h"
 #include "network.h"
 #include "config.h"
+#include "status.h"
 
 int main(int argc, const char * argv[]) {
     printf(BLINK);
@@ -51,8 +52,9 @@ int main(int argc, const char * argv[]) {
     argument_add("--mod-summary","Show extended information about module.",ARG_BOOL,argbool(false),true,false);
     argument_add("--ls-ifaces", "List network interfaces.", ARG_BOOL,argbool(false),true,true);//DONE: This is, so called help argument. Should set that after implementing it in arguments.c
     argument_add("--net-no-stats", "Disable packets and byte counting for interfaces", ARG_BOOL, argbool(false),true,false);
-    
-    
+    argument_add("--hide-stats", "Do not show statistics of DoS when attack is in progress(may improve preformance)", ARG_BOOL, argbool(false), true, false);   
+    argument_add("--target", "Target to attack", ARG_STR, argstr((char*)NULL), false, false);  
+
     arguments_parse(argc, argv, 1);
     
     
@@ -60,17 +62,23 @@ int main(int argc, const char * argv[]) {
         modules_list();
         return 0;
     }
+
     if(argument_value_get_s("--ls-ifaces", ARG_BOOL).boolValue){
         network_print_ifaces();
         return 0;
     }
+
     if(argument_value_get_s("--mod-summary", ARG_BOOL).boolValue){
         argvalue value=argument_value_get_s("--module", ARG_STR);
         char* mod_name=value.strValue;
         module_t* module=module_get(mod_name);
         module_summary(module);
+        return 0;
     }
     
+    if(!argument_value_get_s("--hide-stats", ARG_BOOL).boolValue){
+        status_begin(argument_value_get_s("--target",ARG_STR).strValue);
+    }
     modules_on_init();
     
     module_t* mod=module_get(argument_value_get_s("--module", ARG_STR).strValue);

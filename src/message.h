@@ -74,7 +74,7 @@ void warn(const char* format, ...);
 void error(const char* format, ...);
 void success(const char* format, ...);
 void die(const char* format, ...);
-
+void status(const char* format, ...);
 
 void set_loglevel(uint8_t _log_level);
 void add_loglevel(uint8_t _log_level);
