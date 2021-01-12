@@ -60,6 +60,44 @@ leave_dir(){
     cd $BASEDIR
 }
 
+require_ld_flag(){
+    cd /tmp/
+    echo "int main(void){ return 0; }" >> /tmp/main.c
+    gcc -c /tmp/main.c -o /tmp/main.o
+    ld ${1} /tmp/main.o > /dev/null 
+    code=$?
+    if [ ! $code -eq 0 ]; then
+       error "Checking ld has flag ${1}...${red}${bold}FAIL${normal}"
+       rm -rf /tmp/main.*
+       rm -rf /tmp/a.out
+       exit -1
+    fi
+    info "Checking ld has flag ${1}...${green}${bold}OK${normal}"
+    rm -rf /tmp/main.*
+    rm -rf /tmp/a.out
+    cd $BASEDIR
+}
+
+check_ld_flag(){
+    cd /tmp/
+    echo "int main(void){ return 0; }" >> /tmp/main.c
+    gcc -c /tmp/main.c -o /tmp/main.o
+    ld ${1} /tmp/main.o >> /dev/null 2>&1
+    code=$?
+    if [ ! $code -eq 0 ]; then
+       info "Checking ld has flag ${1}...${red}${bold}No${normal}"
+       rm -rf /tmp/main.*
+       rm -rf /tmp/a.out
+       cd $BASEDIR
+       return -1
+    fi
+    info "Checking ld has flag ${1}...${green}${bold}Yes${normal}"
+    rm -rf /tmp/main.*
+    rm -rf /tmp/a.out
+    cd $BASEDIR
+    return 0
+}
+
 if [ $# -eq 0 ]; then
     error "Please specify target. Use -h option for help."
     exit -1
@@ -75,33 +113,7 @@ if [[ $1 == "-h" ]]; then
     exit 0
 fi
 
-BASEDIR=`pwd`
-CC="gcc"
-CFLAGS="-c -fPIC -I../../library/include/"
-LD="ld"
-LD_FLAGS="-ldl"
-OBJ_DIR="../../obj/"
-BIN_DIR="../../bin/modules/"
-LIB_DIR="../../lib/"
-EXECUTABLE="mod_udp.so"
-
-declare -a SOURCES=("util" "socket" "interface" "mod_udp")
-
-target_all(){
-    info "Building mod_udp."
-    require_directory $OBJ_DIR
-    require_directory $BIN_DIR
-    require_directory $LIB_DIR
-    for file in "${SOURCES[@]}"
-    do
-        exec "${CC} ${CFLAGS} ${file}.c -o ${OBJ_DIR}${file}.o"
-    done
-    change_dir $OBJ_DIR
-    objects=$(printf " %s.o" "${SOURCES[@]}")
-    exec "${LD} ${LD_FLAGS} -shared -L${BASEDIR}/${LIB_DIR} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects} -lddos2 -lc"
-    leave_dir
-    success "Succesfully built mod_udp."
-}
+source Buildfile
 
 if [[ `type -t "target_${1}"` == "function" ]]; then
      eval "target_${1}"
