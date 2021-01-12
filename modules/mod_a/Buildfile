@@ -1,0 +1,38 @@
+BASEDIR=`pwd`
+CC="gcc"
+CFLAGS="-c -fPIC -I../../library/include/"
+LD="ld"
+LD_FLAGS="-shared -ldl"
+OBJ_DIR="../../obj/"
+BIN_DIR="../../bin/modules/"
+LIB_DIR="../../lib/"
+EXECUTABLE="mod_a.so"
+
+declare -a SOURCES=("mod_a" "test" "tests/udp")
+
+target_configure(){
+    info "Performing pre-build configuration and checks"
+    check_ld_flag "-shared"
+    code=$?
+    if [ ! $code -eq 0 ]; then
+       warn "ld does not support shared. Will try to use gcc instead of ld"
+       LD="gcc"
+    fi 
+}
+target_all(){
+    target_configure
+    info "Building mod_a."
+    require_directory $OBJ_DIR
+    require_directory "${OBJ_DIR}/tests"
+    require_directory $BIN_DIR
+    require_directory $LIB_DIR
+    for file in "${SOURCES[@]}"
+    do
+        exec "${CC} ${CFLAGS} ${file}.c -o ${OBJ_DIR}${file}.o"
+    done
+    change_dir $OBJ_DIR
+    objects=$(printf " %s.o" "${SOURCES[@]}")
+    exec "${LD} ${LD_FLAGS} -L${BASEDIR}/${LIB_DIR} -o ${BASEDIR}/${BIN_DIR}${EXECUTABLE} ${objects} -lddos2 -lc"
+    leave_dir
+    success "Succesfully built mod_a."
+}
